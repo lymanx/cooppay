@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoopPay</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#05070A;
+      --bg2:#062f2a;
+      --ink:#E5E7EB;
+      --muted:#A7B0BA;
+      --line:rgba(255,255,255,.10);
+      --line-strong:rgba(255,255,255,.18);
+      --accent:#16A34A;
+      --panel:#06080C;
+      --shadow:0 18px 40px rgba(0,0,0,.35);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    html,body{
+      height:100%;
+    }
+
+    body{
+      font-family:'Inter', sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(ellipse at 18% 22%, rgba(8,88,76,.52) 0%, rgba(8,88,76,.18) 28%, rgba(5,7,10,0) 58%),
+        linear-gradient(90deg, #071417 0%, #05070A 62%);
+      overflow:hidden;
+    }
+
+    .site{
+      min-height:100vh;
+      display:grid;
+      grid-template-rows:auto 1fr auto;
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* header */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:22px 34px;
+      position:relative;
+      z-index:20;
+    }
+
+    .brand{
+      font-size:20px;
+      font-weight:600;
+      line-height:1.1;
+      letter-spacing:.01em;
+      white-space:nowrap;
+    }
+
+    .nav{
+      display:flex;
+      gap:42px;
+      align-items:center;
+    }
+
+    .nav button,
+    .mobile-menu button{
+      appearance:none;
+      border:none;
+      background:none;
+      color:var(--muted);
+      font:inherit;
+      font-size:20px;
+      cursor:pointer;
+      transition:color .18s ease;
+    }
+
+    .nav button:hover,
+    .mobile-menu button:hover{
+      color:var(--ink);
+    }
+
+    .hamburger{
+      display:none;
+      appearance:none;
+      border:none;
+      background:none;
+      color:var(--ink);
+      font:inherit;
+      font-size:34px;
+      line-height:1;
+      cursor:pointer;
+    }
+
+    .mobile-menu{
+      display:none;
+      position:absolute;
+      top:74px;
+      right:18px;
+      min-width:190px;
+      z-index:30;
+      background:rgba(8,10,14,.96);
+      border:1px solid var(--line-strong);
+      border-radius:14px;
+      box-shadow:var(--shadow);
+      padding:10px;
+    }
+
+    .mobile-menu.open{
+      display:block;
+    }
+
+    .mobile-menu button{
+      display:block;
+      width:100%;
+      text-align:left;
+      padding:12px 12px;
+      border-radius:10px;
+      font-size:20px;
+    }
+
+    .mobile-menu button:hover{
+      background:rgba(255,255,255,.05);
+    }
+
+    /* main */
+    .main{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px 24px 10px;
+      overflow:hidden;
+    }
+
+    .stage{
+      width:min(1180px, 100%);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      gap:42px;
+    }
+
+    .headline{
+      max-width:1120px;
+      font-size:clamp(52px, 5.4vw, 86px);
+      line-height:1.04;
+      font-weight:700;
+      letter-spacing:-.03em;
+      text-wrap:balance;
+    }
+
+    /* desktop layout */
+    .desktop-stage{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:42px;
+      width:100%;
+    }
+
+    .desktop-qr-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:92px;
+      justify-content:center;
+      align-items:start;
+      max-width:760px;
+      width:100%;
+    }
+
+    /* mobile layout */
+    .mobile-stage{
+      display:none;
+      flex-direction:column;
+      align-items:center;
+      gap:28px;
+      width:100%;
+    }
+
+    .toggle{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px;
+      border-radius:999px;
+      border:1px solid var(--line-strong);
+      background:rgba(255,255,255,.03);
+    }
+
+    .toggle button{
+      appearance:none;
+      border:none;
+      background:none;
+      color:var(--muted);
+      font:inherit;
+      font-size:20px;
+      padding:11px 18px;
+      border-radius:999px;
+      cursor:pointer;
+      transition:background .18s ease, color .18s ease, border-color .18s ease;
+    }
+
+    .toggle button.active{
+      background:rgba(255,255,255,.10);
+      color:var(--ink);
+      box-shadow:inset 0 0 0 1px rgba(22,163,74,.45);
+    }
+
+    .qr-card{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:14px;
+      cursor:pointer;
+      user-select:none;
+      transition:transform .18s ease;
+    }
+
+    .qr-card:hover{
+      transform:translateY(-2px);
+    }
+
+    .store-label{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      color:var(--ink);
+      font-size:22px;
+      font-weight:600;
+      letter-spacing:.01em;
+    }
+
+    .store-label svg{
+      width:24px;
+      height:24px;
+      fill:currentColor;
+      flex:0 0 auto;
+    }
+
+    .qr-frame{
+      width:270px;
+      height:270px;
+      padding:14px;
+      border-radius:22px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.03),
+        0 18px 40px rgba(0,0,0,.34);
+      transition:border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .qr-card:hover .qr-frame{
+      border-color:rgba(22,163,74,.48);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.03),
+        0 18px 40px rgba(0,0,0,.34),
+        0 0 0 1px rgba(22,163,74,.16);
+    }
+
+    .qr-inner{
+      width:100%;
+      height:100%;
+      border-radius:14px;
+      background:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+    }
+
+    .qr-inner img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+    }
+
+    /* footer */
+    .footer{
+      text-align:center;
+      padding:18px 20px 22px;
+      font-size:22px;
+      font-weight:500;
+      color:var(--muted);
+      z-index:10;
+    }
+
+    /* panels */
+    .panel{
+      position:fixed;
+      inset:0;
+      z-index:40;
+      background:
+        radial-gradient(ellipse at 18% 22%, rgba(8,88,76,.28) 0%, rgba(8,88,76,.08) 28%, rgba(5,7,10,0) 56%),
+        rgba(5,7,10,.985);
+      opacity:0;
+      pointer-events:none;
+      transform:translateY(10px);
+      transition:opacity .22s ease, transform .22s ease;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:110px 24px 74px;
+    }
+
+    .panel.active{
+      opacity:1;
+      pointer-events:auto;
+      transform:translateY(0);
+    }
+
+    .panel-close{
+      position:absolute;
+      top:22px;
+      right:26px;
+      appearance:none;
+      border:none;
+      background:none;
+      color:var(--muted);
+      font:inherit;
+      font-size:34px;
+      line-height:1;
+      cursor:pointer;
+    }
+
+    .panel-inner{
+      width:min(920px, 100%);
+      max-height:100%;
+      overflow:auto;
+      text-align:center;
+      padding:8px;
+    }
+
+    .panel h2{
+      font-size:clamp(42px, 4.2vw, 66px);
+      line-height:1.06;
+      font-weight:700;
+      margin-bottom:24px;
+      letter-spacing:-.02em;
+    }
+
+    .panel p{
+      max-width:760px;
+      margin:0 auto 18px;
+      font-size:24px;
+      line-height:1.62;
+      color:var(--muted);
+    }
+
+    /* mobile */
+    @media (max-width: 768px){
+      body{
+        overflow:hidden;
+      }
+
+      .topbar{
+        padding:20px 18px;
+      }
+
+      .brand{
+        font-size:18px;
+        max-width:78%;
+        white-space:normal;
+      }
+
+      .nav{
+        display:none;
+      }
+
+      .hamburger{
+        display:block;
+      }
+
+      .main{
+        padding:8px 16px 6px;
+      }
+
+      .stage{
+        gap:22px;
+      }
+
+      .headline{
+        font-size:clamp(38px, 8vw, 50px);
+        line-height:1.08;
+        max-width:760px;
+      }
+
+      .desktop-stage{
+        display:none;
+      }
+
+      .mobile-stage{
+        display:flex;
+      }
+
+      .store-label{
+        font-size:21px;
+      }
+
+      .qr-frame{
+        width:246px;
+        height:246px;
+        border-radius:20px;
+      }
+
+      .footer{
+        font-size:18px;
+        padding:12px 14px 18px;
+      }
+
+      .panel{
+        padding:96px 18px 64px;
+      }
+
+      .panel-close{
+        top:18px;
+        right:18px;
+      }
+
+      .panel p{
+        font-size:20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site">
+    <header class="topbar">
+      <div class="brand">The Co-operative Exchange</div>
+
+      <nav class="nav">
+        <button type="button" data-panel="pay">QuickPay</button>
+        <button type="button" data-panel="network">Use Case</button>
+        <button type="button" data-panel="about">About Us</button>
+      </nav>
+
+      <button type="button" class="hamburger" id="hamburger" aria-label="Open menu">☰</button>
+
+      <div class="mobile-menu" id="mobileMenu">
+        <button type="button" data-panel="pay">QuickPay</button>
+        <button type="button" data-panel="network">Use Case</button>
+        <button type="button" data-panel="about">About</button>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="stage">
+        <h1 class="headline">CoopPay, the Payment Rail for Cooperative Commerce</h1>
+
+        <!-- Desktop -->
+        <div class="desktop-stage">
+          <div class="desktop-qr-grid">
+            <div class="qr-card" data-link="https://apps.apple.com/ph/app/cooppay/id6449245711">
+              <div class="store-label">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M16.365 1.43c0 1.14-.42 2.09-1.26 2.86-.95.85-2.09 1.35-3.33 1.24-.16-1.08.42-2.24 1.25-2.94.93-.8 2.27-1.38 3.34-1.16zM20.5 17.03c-.84 1.21-1.7 2.42-3.08 2.44-1.35.03-1.78-.8-3.32-.8-1.53 0-2.02.78-3.31.83-1.33.05-2.34-1.34-3.18-2.55-1.74-2.52-3.06-7.1-1.28-10.18.88-1.53 2.46-2.5 4.18-2.53 1.31-.02 2.54.88 3.32.88.78 0 2.24-1.09 3.78-.93.65.03 2.47.26 3.64 1.97-.1.06-2.17 1.27-2.15 3.8.03 3.03 2.65 4.04 2.68 4.05-.02.07-.42 1.43-1.28 2.55z"/>
+                </svg>
+                <span>App Store</span>
+              </div>
+              <div class="qr-frame">
+                <div class="qr-inner">
+                  <img src="https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_app_store.png?v=1774871927" alt="Download CoopPay on the App Store">
+                </div>
+              </div>
+            </div>
+
+            <div class="qr-card" data-link="https://play.google.com/store/apps/details?id=com.coop.pay">
+              <div class="store-label">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 2l18 10L3 22z"/>
+                </svg>
+                <span>Google Play</span>
+              </div>
+              <div class="qr-frame">
+                <div class="qr-inner">
+                  <img src="https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_google_play.png?v=1774871948" alt="Get CoopPay on Google Play">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile -->
+        <div class="mobile-stage">
+          <div class="toggle" id="mobileToggle">
+            <button type="button" class="active" data-os="ios">iOS</button>
+            <button type="button" data-os="android">Android</button>
+          </div>
+
+          <div class="qr-card" id="mobileQrCard" data-link="https://apps.apple.com/ph/app/cooppay/id6449245711">
+            <div class="store-label" id="mobileStoreLabel">
+              <svg id="mobileStoreIcon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M16.365 1.43c0 1.14-.42 2.09-1.26 2.86-.95.85-2.09 1.35-3.33 1.24-.16-1.08.42-2.24 1.25-2.94.93-.8 2.27-1.38 3.34-1.16zM20.5 17.03c-.84 1.21-1.7 2.42-3.08 2.44-1.35.03-1.78-.8-3.32-.8-1.53 0-2.02.78-3.31.83-1.33.05-2.34-1.34-3.18-2.55-1.74-2.52-3.06-7.1-1.28-10.18.88-1.53 2.46-2.5 4.18-2.53 1.31-.02 2.54.88 3.32.88.78 0 2.24-1.09 3.78-.93.65.03 2.47.26 3.64 1.97-.1.06-2.17 1.27-2.15 3.8.03 3.03 2.65 4.04 2.68 4.05-.02.07-.42 1.43-1.28 2.55z"/>
+              </svg>
+              <span id="mobileStoreText">App Store</span>
+            </div>
+            <div class="qr-frame">
+              <div class="qr-inner">
+                <img id="mobileQrImage" src="https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_app_store.png?v=1774871927" alt="Download CoopPay">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      Direct Payment · No Custody · Cooperative Commerce
+    </footer>
+
+    <section class="panel" id="panel-pay" aria-hidden="true">
+      <button type="button" class="panel-close" aria-label="Close panel">✕</button>
+      <div class="panel-inner">
+        <h2>Coop-to-Coop Payments</h2>
+        <p>QuickPay is a popup button we designed on BuyCoop that allows cooperative purchasers to make direct QR payments using CoopPay and Lightning wallets.</p>
+        <p>Each cooperative purchaser is shown the cooperative supplier’s own Lightning QR, so payment is made directly—no platform in between. At the same time, each payment contributes to a procurement run, allowing cooperatives to aggregate demand, execute at scale, and strengthen direct cooperative-to-cooperative trade without platform dependency.</p>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-network" aria-hidden="true">
+      <button type="button" class="panel-close" aria-label="Close panel">✕</button>
+      <div class="panel-inner">
+        <h2>Cooperative Use Case</h2>
+        <p>CoopPay-to-CoopPay payments are zero-fee and run on Lightning addresses, not anonymous QR endpoints. When manilacoop@isle.ph sends to baguiocoop@isle.ph, the sender is immediately known and attributable. Identity travels with the payment.</p>
+	<p>There are no unknown counterparties, no detached references, and no need to reconcile who paid. Each transaction is direct, visible, and traceable—by design.</p>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-about" aria-hidden="true">
+      <button type="button" class="panel-close" aria-label="Close panel">✕</button>
+      <div class="panel-inner">
+        <h2>Cooperative Vision</h2>
+        <p>The Co-operative Exchange aka BuyCoop is building the infrastructure for the cooperative economy.</p>
+
+<p>CoopPay is the world’s first Lightning wallet built for cooperatives, developed by One Cooperative Technology Services. It enables direct, zero-fee, peso-to-peso payments.</p>
+
+<p>A CoopShop in every cooperative office. This is envisioned to operate on the CoopPay Lightning rail, where trade is executed directly and coordination remains shared.</p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const ios = {
+      link: 'https://apps.apple.com/ph/app/cooppay/id6449245711',
+      img: 'https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_app_store.png?v=1774871927',
+      text: 'App Store',
+      svg: '<path d="M16.365 1.43c0 1.14-.42 2.09-1.26 2.86-.95.85-2.09 1.35-3.33 1.24-.16-1.08.42-2.24 1.25-2.94.93-.8 2.27-1.38 3.34-1.16zM20.5 17.03c-.84 1.21-1.7 2.42-3.08 2.44-1.35.03-1.78-.8-3.32-.8-1.53 0-2.02.78-3.31.83-1.33.05-2.34-1.34-3.18-2.55-1.74-2.52-3.06-7.1-1.28-10.18.88-1.53 2.46-2.5 4.18-2.53 1.31-.02 2.54.88 3.32.88.78 0 2.24-1.09 3.78-.93.65.03 2.47.26 3.64 1.97-.1.06-2.17 1.27-2.15 3.8.03 3.03 2.65 4.04 2.68 4.05-.02.07-.42 1.43-1.28 2.55z"/>'
+    };
+
+    const android = {
+      link: 'https://play.google.com/store/apps/details?id=com.coop.pay',
+      img: 'https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_google_play.png?v=1774871948',
+      text: 'Google Play',
+      svg: '<path d="M3 2l18 10L3 22z"/>'
+    };
+
+    document.querySelectorAll('.qr-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const link = card.getAttribute('data-link');
+        if (link) window.open(link, '_blank');
+      });
+    });
+
+    const mobileButtons = document.querySelectorAll('#mobileToggle button');
+    const mobileCard = document.getElementById('mobileQrCard');
+    const mobileImg = document.getElementById('mobileQrImage');
+    const mobileText = document.getElementById('mobileStoreText');
+    const mobileIcon = document.getElementById('mobileStoreIcon');
+
+    mobileButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        mobileButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const os = btn.getAttribute('data-os');
+        const data = os === 'android' ? android : ios;
+
+        mobileCard.setAttribute('data-link', data.link);
+        mobileImg.src = data.img;
+        mobileText.textContent = data.text;
+        mobileIcon.innerHTML = data.svg;
+      });
+    });
+
+    const panelButtons = document.querySelectorAll('[data-panel]');
+    const panels = document.querySelectorAll('.panel');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const hamburger = document.getElementById('hamburger');
+
+    function closePanels() {
+      panels.forEach(panel => {
+        panel.classList.remove('active');
+        panel.setAttribute('aria-hidden', 'true');
+      });
+    }
+
+    panelButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const id = button.getAttribute('data-panel');
+        closePanels();
+        const target = document.getElementById('panel-' + id);
+        if (target) {
+          target.classList.add('active');
+          target.setAttribute('aria-hidden', 'false');
+        }
+        mobileMenu.classList.remove('open');
+      });
+    });
+
+    document.querySelectorAll('.panel-close').forEach(btn => {
+      btn.addEventListener('click', closePanels);
+    });
+
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closePanels();
+    });
+  </script>
+</body>
+</html>
