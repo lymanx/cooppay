@@ -66,9 +66,9 @@ body{font-family:'Inter',system-ui,sans-serif;color:#111;background:#e8faf7;-web
 
 /* stat strip */
 .stat-strip{display:flex;gap:0;padding-top:18px;border-top:1px solid rgba(15,118,110,.18);margin-bottom:24px;}
-.pstat{padding-right:24px;display:flex;flex-direction:column;gap:3px;}
+.pstat{padding-right:24px;display:flex;flex-direction:column;gap:3px;align-items:center;text-align:center;}
 .pstat+.pstat{padding-left:24px;border-left:1px solid rgba(15,118,110,.18);}
-.pstat-head{display:flex;align-items:center;gap:7px;}
+.pstat-head{display:flex;align-items:center;gap:7px;justify-content:center;}
 .pstat-icon{color:#0f766e;flex-shrink:0;}
 .pstat-val{font-size:18px;font-weight:700;color:#111;line-height:1.1;letter-spacing:-.01em;}
 .pstat-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#9ca3af;margin-left:0;}
@@ -354,7 +354,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:#111;background:#e8faf7;-web
       </div>
       <div class="pstat">
         <div class="pstat-head"><svg class="pstat-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span class="pstat-val">Lightning</span></div>
-        <div class="pstat-label">Rail</div>
+        <div class="pstat-label">Payment rail</div>
       </div>
       <div class="pstat">
         <div class="pstat-head"><svg class="pstat-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg><span class="pstat-val">Direct</span></div>
