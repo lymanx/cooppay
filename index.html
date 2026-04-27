@@ -1,653 +1,486 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CoopPay — Payment Rail for Cooperative Trade</title>
-
-	<link rel="icon" type="image/png" sizes="32x32" href="https://cdn.shopify.com/s/files/1/1304/2747/files/buyCoop____favicon.png?v=1702363958">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoopPay — Payment Rail for Cooperative Trade</title>
+<link rel="icon" type="image/png" sizes="32x32" href="https://cdn.shopify.com/s/files/1/1304/2747/files/buyCoop____favicon.png?v=1702363958">
 <link rel="apple-touch-icon" href="https://cdn.shopify.com/s/files/1/1304/2747/files/buyCoop____favicon.png?v=1702363958">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">	
-	
-  <style>
-    :root{
-      --bg:#05070A;
-      --bg2:#062f2a;
-      --ink:#E5E7EB;
-      --muted:#A7B0BA;
-      --line:rgba(255,255,255,.10);
-      --line-strong:rgba(255,255,255,.18);
-      --accent:#16A34A;
-      --panel:#06080C;
-      --shadow:0 18px 40px rgba(0,0,0,.35);
-    }
-
-    *{box-sizing:border-box;margin:0;padding:0}
-
-    html,body{
-      height:100%;
-    }
-
-    body{
-      font-family:'Inter', system-ui, -apple-system, sans-serif;
-      color:var(--ink);
-      background:
-        radial-gradient(ellipse at 18% 22%, rgba(8,88,76,.52) 0%, rgba(8,88,76,.18) 28%, rgba(5,7,10,0) 58%),
-        linear-gradient(90deg, #071417 0%, #05070A 62%);
-      overflow:hidden;
-    }
-
-    .site{
-      min-height:100vh;
-      display:grid;
-      grid-template-rows:auto 1fr auto;
-      position:relative;
-      overflow:hidden;
-    }
-
-    /* header */
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:22px 34px;
-      position:relative;
-      z-index:20;
-    }
-
-    .brand{
-      font-size:20px;
-      font-weight:600;
-      line-height:1.1;
-      letter-spacing:.01em;
-      white-space:nowrap;
-    }
-
-    .nav{
-      display:flex;
-      gap:42px;
-      align-items:center;
-    }
-
-    .nav button,
-    .mobile-menu button{
-      appearance:none;
-      border:none;
-      background:none;
-      color:var(--muted);
-      font:inherit;
-      font-size:20px;
-      cursor:pointer;
-      transition:color .18s ease;
-    }
-
-    .nav button:hover,
-    .mobile-menu button:hover{
-      color:var(--ink);
-    }
-
-    .hamburger{
-      display:none;
-      appearance:none;
-      border:none;
-      background:none;
-      color:var(--ink);
-      font:inherit;
-      font-size:34px;
-      line-height:1;
-      cursor:pointer;
-    }
-
-    .mobile-menu{
-      display:none;
-      position:absolute;
-      top:74px;
-      right:18px;
-      min-width:190px;
-      z-index:30;
-      background:rgba(8,10,14,.96);
-      border:1px solid var(--line-strong);
-      border-radius:14px;
-      box-shadow:var(--shadow);
-      padding:10px;
-    }
-
-    .mobile-menu.open{
-      display:block;
-    }
-
-    .mobile-menu button{
-      display:block;
-      width:100%;
-      text-align:left;
-      padding:12px 12px;
-      border-radius:10px;
-      font-size:20px;
-    }
-
-    .mobile-menu button:hover{
-      background:rgba(255,255,255,.05);
-    }
-
-    /* main */
-    .main{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:18px 24px 10px;
-      overflow:hidden;
-    }
-
-    .stage{
-      width:min(1180px, 100%);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      gap:42px;
-    }
-
-    .headline{
-      max-width:1120px;
-      font-size:clamp(52px, 5.4vw, 86px);
-      line-height:1.04;
-      font-weight:700;
-      letter-spacing:-.03em;
-      text-wrap:balance;
-    }
-
-    /* desktop layout */
-    .desktop-stage{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:42px;
-      width:100%;
-    }
-
-    .desktop-qr-grid{
-      display:grid;
-      grid-template-columns:repeat(2, minmax(0, 1fr));
-      gap:92px;
-      justify-content:center;
-      align-items:start;
-      max-width:760px;
-      width:100%;
-    }
-
-    /* mobile layout */
-    .mobile-stage{
-      display:none;
-      flex-direction:column;
-      align-items:center;
-      gap:28px;
-      width:100%;
-    }
-
-    .toggle{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:6px;
-      border-radius:999px;
-      border:1px solid var(--line-strong);
-      background:rgba(255,255,255,.03);
-    }
-
-    .toggle button{
-      appearance:none;
-      border:none;
-      background:none;
-      color:var(--muted);
-      font:inherit;
-      font-size:20px;
-      padding:11px 18px;
-      border-radius:999px;
-      cursor:pointer;
-      transition:background .18s ease, color .18s ease, border-color .18s ease;
-    }
-
-    .toggle button.active{
-      background:rgba(255,255,255,.10);
-      color:var(--ink);
-      box-shadow:inset 0 0 0 1px rgba(22,163,74,.45);
-    }
-
-    .qr-card{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:14px;
-      cursor:pointer;
-      user-select:none;
-      transition:transform .18s ease;
-    }
-
-    .qr-card:hover{
-      transform:translateY(-2px);
-    }
-
-    .store-label{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      color:var(--ink);
-      font-size:22px;
-      font-weight:600;
-      letter-spacing:.01em;
-    }
-
-    .store-label svg{
-      width:24px;
-      height:24px;
-      fill:currentColor;
-      flex:0 0 auto;
-    }
-
-    .qr-frame{
-      width:270px;
-      height:270px;
-      padding:14px;
-      border-radius:22px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border:1px solid rgba(255,255,255,.14);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.03),
-        0 18px 40px rgba(0,0,0,.34);
-      transition:border-color .2s ease, box-shadow .2s ease;
-    }
-
-    .qr-card:hover .qr-frame{
-      border-color:rgba(22,163,74,.48);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.03),
-        0 18px 40px rgba(0,0,0,.34),
-        0 0 0 1px rgba(22,163,74,.16);
-    }
-
-    .qr-inner{
-      width:100%;
-      height:100%;
-      border-radius:14px;
-      background:#fff;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-    }
-
-    .qr-inner img{
-      width:100%;
-      height:100%;
-      object-fit:contain;
-      display:block;
-    }
-
-    /* footer */
-    .footer{
-      text-align:center;
-      padding:18px 20px 22px;
-      font-size:22px;
-      font-weight:500;
-      color:var(--muted);
-      z-index:10;
-    }
-
-	  .footer a {
-  color: rgba(255,255,255,0.85); /* slightly brighter */
-  text-decoration: none;
-  transition: opacity 0.2s ease;
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html{height:100%;}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  color:#111;
+  background:#edfaf8;
+  -webkit-font-smoothing:antialiased;
+  min-height:100%;
 }
 
-.footer a:hover {
-  opacity: 1;
+/* ── ORBS ── */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);animation:drift linear infinite;}
+.orb1{width:800px;height:800px;background:radial-gradient(circle,rgba(15,118,110,.28),transparent 65%);top:-20%;left:-15%;animation-duration:20s;opacity:1;}
+.orb2{width:600px;height:600px;background:radial-gradient(circle,rgba(22,163,74,.2),transparent 65%);top:20%;right:-12%;animation-duration:25s;animation-delay:-8s;opacity:1;}
+.orb3{width:500px;height:500px;background:radial-gradient(circle,rgba(8,145,178,.22),transparent 65%);bottom:-12%;left:20%;animation-duration:30s;animation-delay:-15s;opacity:1;}
+@keyframes drift{
+  0%{transform:translate(0,0) scale(1);}
+  25%{transform:translate(50px,-40px) scale(1.06);}
+  50%{transform:translate(25px,60px) scale(.94);}
+  75%{transform:translate(-40px,25px) scale(1.04);}
+  100%{transform:translate(0,0) scale(1);}
 }
 
-    /* panels */
-    .panel{
-      position:fixed;
-      inset:0;
-      z-index:40;
-      background:
-        radial-gradient(ellipse at 18% 22%, rgba(8,88,76,.28) 0%, rgba(8,88,76,.08) 28%, rgba(5,7,10,0) 56%),
-        rgba(5,7,10,.985);
-      opacity:0;
-      pointer-events:none;
-      transform:translateY(10px);
-      transition:opacity .22s ease, transform .22s ease;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:110px 24px 74px;
-    }
+/* ── TOPBAR ── */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 36px;height:56px;
+  border-bottom:1px solid rgba(15,118,110,.18);
+  position:sticky;top:0;z-index:20;
+  background:rgba(237,250,248,.92);backdrop-filter:blur(12px);
+}
+.topbar-brand{font-size:14px;font-weight:600;color:#111;text-decoration:none;display:flex;align-items:center;gap:8px;}
+.topbar-brand:hover{color:#0f766e;}
+.brand-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;flex-shrink:0;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.5);}50%{box-shadow:0 0 0 6px rgba(34,197,94,0);}}
+.topbar-nav{display:flex;align-items:center;}
+.topbar-nav button{
+  appearance:none;border:none;background:none;
+  color:#6b7280;font:inherit;font-size:14px;
+  padding:0 18px;height:56px;cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:color .15s,border-color .15s;white-space:nowrap;
+}
+.topbar-nav button:hover{color:#0f766e;}
+.topbar-nav button.active{color:#0f766e;border-bottom-color:#0f766e;}
+.hamburger{display:none;appearance:none;border:none;background:none;color:#374151;font-size:24px;line-height:1;cursor:pointer;padding:4px;}
+.mobile-menu{display:none;position:absolute;top:56px;right:16px;min-width:190px;z-index:30;background:rgba(237,250,248,.98);border:1px solid rgba(15,118,110,.18);border-radius:10px;padding:8px;box-shadow:0 8px 28px rgba(0,0,0,.12);}
+.mobile-menu.open{display:block;}
+.mobile-menu button{display:block;width:100%;text-align:left;appearance:none;border:none;background:none;color:#374151;font:inherit;font-size:14px;padding:12px 14px;border-radius:7px;cursor:pointer;}
+.mobile-menu button:hover{background:rgba(15,118,110,.08);color:#0f766e;}
 
-    .panel.active{
-      opacity:1;
-      pointer-events:auto;
-      transform:translateY(0);
-    }
+/* ── DESKTOP: single viewport ── */
+.main-desktop{
+  display:flex;align-items:center;justify-content:center;
+  height:calc(100vh - 56px - 48px);
+  padding:0 48px;position:relative;z-index:1;
+}
+.stage{width:min(1080px,100%);display:flex;align-items:center;justify-content:space-between;gap:56px;}
 
-    .panel-close{
-      position:absolute;
-      top:22px;
-      right:26px;
-      appearance:none;
-      border:none;
-      background:none;
-      color:var(--muted);
-      font:inherit;
-      font-size:34px;
-      line-height:1;
-      cursor:pointer;
-    }
+/* LEFT */
+.stage-left{flex:1;display:flex;flex-direction:column;gap:0;}
+.stage-eyebrow{
+  font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  color:#0f766e;margin-bottom:14px;display:flex;align-items:center;gap:10px;
+}
+.stage-eyebrow::before{content:'';width:24px;height:1px;background:#0f766e;display:block;}
+.stage-headline{
+  font-size:clamp(42px,4.2vw,66px);
+  font-weight:700;line-height:1.04;letter-spacing:-.03em;
+  color:#111;margin-bottom:14px;
+}
+.stage-headline span{
+  background:linear-gradient(120deg,#0f766e 0%,#059669 45%,#0891b2 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.stage-sub{font-size:17px;color:#4b5563;line-height:1.65;max-width:420px;margin-bottom:22px;}
+.stat-strip{display:flex;gap:0;padding-top:18px;border-top:1px solid rgba(15,118,110,.15);margin-bottom:22px;}
+.pstat{padding-right:24px;}
+.pstat+.pstat{padding-left:24px;border-left:1px solid rgba(15,118,110,.15);}
+.pstat-val{font-size:18px;font-weight:600;color:#111;line-height:1.2;margin-bottom:3px;}
+.pstat-label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9ca3af;}
+.info-rows{display:flex;flex-direction:column;gap:9px;}
+.info-row{display:flex;align-items:center;gap:10px;font-size:15px;color:#4b5563;}
+.info-row-dot{width:6px;height:6px;border-radius:50%;background:#0f766e;flex-shrink:0;}
 
-    .panel-inner{
-      width:min(920px, 100%);
-      max-height:100%;
-      overflow:auto;
-      text-align:left;
-    
-    }
+/* RIGHT */
+.stage-right{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:14px;}
+.qr-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;}
+.qr-card{display:flex;flex-direction:column;align-items:center;gap:12px;cursor:pointer;transition:transform .2s ease;}
+.qr-card:hover{transform:translateY(-5px);}
+.qr-store-label{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:#374151;}
+.qr-store-label svg{width:16px;height:16px;fill:currentColor;flex-shrink:0;}
+.qr-frame{
+  position:relative;width:224px;height:224px;
+  border-radius:22px;padding:12px;
+  background:#fff;
+  border:1px solid rgba(15,118,110,.18);
+  box-shadow:
+    0 0 0 1px rgba(15,118,110,.06),
+    0 4px 16px rgba(15,118,110,.12),
+    0 16px 48px rgba(15,118,110,.14),
+    0 32px 80px rgba(15,118,110,.08);
+  transition:box-shadow .25s ease,transform .2s ease;
+}
+.qr-card:hover .qr-frame{
+  box-shadow:
+    0 0 0 1px rgba(15,118,110,.2),
+    0 8px 24px rgba(15,118,110,.2),
+    0 24px 64px rgba(15,118,110,.2),
+    0 40px 100px rgba(15,118,110,.12);
+}
+.qr-frame::before{
+  content:'';position:absolute;top:0;left:12%;right:12%;height:2px;border-radius:0 0 2px 2px;
+  background:linear-gradient(90deg,transparent,rgba(15,118,110,.5),rgba(8,145,178,.45),transparent);
+}
+.qr-inner{width:100%;height:100%;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.qr-inner img{width:100%;height:100%;object-fit:contain;display:block;}
 
-	  .panel-inner{
-  margin:0 auto;     /* keeps block centered */
-  padding-left:8px;  /* slight edge alignment */
+/* panel links below QR */
+.qr-panel-links{display:flex;flex-direction:column;gap:8px;width:100%;}
+.qr-panel-link{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 14px;border:1px solid rgba(15,118,110,.18);border-radius:8px;
+  text-decoration:none;background:rgba(255,255,255,.65);
+  transition:border-color .15s,background .15s;
+}
+.qr-panel-link:hover{border-color:#0f766e;background:rgba(240,253,251,.95);}
+.qr-panel-link-icon{
+  width:30px;height:30px;border-radius:50%;
+  background:#f0fdf4;border:1px solid #86efac;color:#0f766e;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:600;
+}
+.qr-panel-link-label{font-size:13px;font-weight:600;color:#111;flex:1;line-height:1.4;}
+.qr-panel-link-sub{font-size:11px;color:#9ca3af;}
+.qr-panel-link-arrow{font-size:12px;color:#9ca3af;}
+
+/* ── MOBILE: scrollable ── */
+.main-mobile{display:none;position:relative;z-index:1;padding:28px 20px 36px;}
+.mobile-stage{display:flex;flex-direction:column;align-items:center;gap:22px;max-width:420px;margin:0 auto;}
+.mobile-stage .stage-eyebrow{justify-content:center;}
+.mobile-stage .stage-headline{text-align:center;font-size:clamp(36px,9vw,48px);}
+.mobile-stage .stage-sub{text-align:center;max-width:none;font-size:16px;}
+.mobile-stage .stat-strip{justify-content:center;}
+.mobile-stage .info-rows{width:100%;}
+.mobile-stage .info-row{font-size:14px;}
+
+.toggle{display:inline-flex;align-items:center;gap:4px;padding:4px;border-radius:999px;border:1px solid rgba(15,118,110,.2);background:rgba(255,255,255,.6);}
+.toggle button{appearance:none;border:none;background:none;color:#6b7280;font:inherit;font-size:14px;font-weight:500;padding:8px 22px;border-radius:999px;cursor:pointer;transition:background .18s,color .18s,box-shadow .18s;}
+.toggle button.active{background:#fff;color:#0f766e;font-weight:600;box-shadow:0 1px 5px rgba(0,0,0,.1),inset 0 0 0 1px rgba(15,118,110,.3);}
+.mobile-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;}
+.mobile-qr-wrap .qr-frame{width:240px;height:240px;}
+.mobile-store-label{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:#374151;}
+
+/* ── PANELS ── */
+.panel{
+  position:fixed;inset:0;z-index:40;
+  background:rgba(237,250,248,.97);backdrop-filter:blur(14px);
+  opacity:0;pointer-events:none;transform:translateY(8px);
+  transition:opacity .2s ease,transform .2s ease;
+  display:flex;align-items:center;justify-content:center;
+  padding:80px 36px 48px;overflow-y:auto;
+}
+.panel.active{opacity:1;pointer-events:auto;transform:translateY(0);}
+.panel-close{position:absolute;top:20px;right:26px;appearance:none;border:none;background:none;color:#9ca3af;font:inherit;font-size:22px;line-height:1;cursor:pointer;}
+.panel-close:hover{color:#111;}
+.panel-inner{width:min(700px,100%);margin:auto;}
+.panel-eyebrow{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#0f766e;margin-bottom:14px;}
+.panel h2{font-size:clamp(28px,3vw,44px);font-weight:700;line-height:1.1;letter-spacing:-.02em;color:#111;margin-bottom:18px;}
+.panel p{font-size:16px;line-height:1.75;color:#4b5563;margin-bottom:16px;max-width:600px;}
+.panel p strong{color:#111;}
+.panel-divider{border:none;border-top:1px solid rgba(15,118,110,.15);margin:22px 0;}
+.panel-links{display:flex;flex-direction:column;gap:10px;}
+.panel-link{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid rgba(15,118,110,.18);border-radius:9px;text-decoration:none;background:rgba(255,255,255,.7);transition:border-color .15s,background .15s;}
+.panel-link:hover{border-color:#0f766e;background:#f0fdf4;}
+.panel-link-icon{width:34px;height:34px;border-radius:50%;background:#f0fdf4;border:1px solid #86efac;color:#0f766e;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;font-weight:600;}
+.panel-link-text{flex:1;}
+.panel-link-label{font-size:14px;font-weight:600;color:#111;line-height:1.4;}
+.panel-link-sub{font-size:12px;color:#6b7280;margin-top:1px;}
+.panel-link-arrow{font-size:13px;color:#9ca3af;}
+
+/* ── FOOTER ── */
+.footer{
+  height:48px;display:flex;align-items:center;justify-content:center;
+  border-top:1px solid rgba(15,118,110,.12);
+  font-size:13px;color:#9ca3af;
+  position:relative;z-index:1;
+  background:rgba(237,250,248,.9);backdrop-filter:blur(8px);
 }
 
-
-    .panel h2{
-      font-size:clamp(42px, 4.2vw, 66px);
-      line-height:1.06;
-      font-weight:700;
-      margin-bottom:24px;
-      letter-spacing:-.02em;
-    }
-
-    .panel p{
-     max-width:760px;
-  margin:0 0 18px;  /* 🔴 remove auto centering */
-      font-size:24px;
-      line-height:1.62;
-      color:var(--muted);
-    }
-
-
-    /* mobile */
-    @media (max-width: 768px){
-      body{
-        overflow:hidden;
-      }
-
-      .topbar{
-        padding:20px 18px;
-      }
-
-      .brand{
-        font-size:18px;
-        max-width:78%;
-        white-space:normal;
-      }
-
-      .nav{
-        display:none;
-      }
-
-      .hamburger{
-        display:block;
-      }
-
-      .main{
-        padding:8px 16px 6px;
-      }
-
-      .stage{
-        gap:22px;
-      }
-
-      .headline{
-        font-size:clamp(38px, 8vw, 50px);
-        line-height:1.08;
-        max-width:760px;
-      }
-
-      .desktop-stage{
-        display:none;
-      }
-
-      .mobile-stage{
-        display:flex;
-      }
-
-      .store-label{
-        font-size:21px;
-      }
-
-      .qr-frame{
-        width:246px;
-        height:246px;
-        border-radius:20px;
-      }
-
-      .footer{
-        font-size:18px;
-        padding:12px 14px 18px;
-      }
-
-      .panel{
-        padding:96px 18px 64px;
-      }
-
-      .panel-close{
-        top:18px;
-        right:18px;
-      }
-
-      .panel p{
-        font-size:20px;
-      }
-    }
-  </style>
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  html,body{height:auto;overflow:auto;}
+  .topbar{padding:0 16px;position:sticky;}
+  .topbar-nav{display:none;}
+  .hamburger{display:block;}
+  .main-desktop{display:none;}
+  .main-mobile{display:block;}
+  .footer{position:relative;}
+  .panel{padding:72px 16px 40px;align-items:flex-start;}
+}
+@media(min-width:769px){
+  html,body{height:100%;overflow:hidden;}
+  .main-desktop{display:flex;}
+  .main-mobile{display:none;}
+}
+</style>
 </head>
 <body>
-  <div class="site">
-    <header class="topbar">
-      <div class="brand">Payment Rail for Cooperative Trade</div>
 
-      <nav class="nav">
-        <button type="button" data-panel="pay">QuickPay</button>
-        <button type="button" data-panel="network">Use Cases</button>
-        <button type="button" data-panel="about">About Us</button>
-      </nav>
+<div class="bg">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
 
-      <button type="button" class="hamburger" id="hamburger" aria-label="Open menu">☰</button>
+<header class="topbar">
+  <a href="https://www.buy.coop" class="topbar-brand">
+    <span class="brand-dot"></span>The Co-operative Exchange
+  </a>
+  <nav class="topbar-nav">
+    <button type="button" data-panel="pay">QuickPay</button>
+    <button type="button" data-panel="network">Use Cases</button>
+    <button type="button" data-panel="about">About</button>
+  </nav>
+  <button type="button" class="hamburger" id="hamburger">☰</button>
+  <div class="mobile-menu" id="mobileMenu">
+    <button type="button" data-panel="pay">QuickPay</button>
+    <button type="button" data-panel="network">Use Cases</button>
+    <button type="button" data-panel="about">About</button>
+  </div>
+</header>
 
-      <div class="mobile-menu" id="mobileMenu">
-        <button type="button" data-panel="pay">QuickPay</button>
-        <button type="button" data-panel="network">Use Case</button>
-        <button type="button" data-panel="about">About</button>
+<!-- DESKTOP -->
+<main class="main-desktop">
+  <div class="stage">
+    <div class="stage-left">
+      <div class="stage-eyebrow">Lightning Network · Cooperative Commerce</div>
+      <h1 class="stage-headline">Download<br><span>CoopPay</span></h1>
+      <p class="stage-sub">The world's first Lightning Network super app built by and for cooperatives. Direct payment. No custody. Zero fees between cooperatives.</p>
+      <div class="stat-strip">
+        <div class="pstat"><div class="pstat-val">Zero fees</div><div class="pstat-label">Coop-to-coop</div></div>
+        <div class="pstat"><div class="pstat-val">Lightning</div><div class="pstat-label">Payment rail</div></div>
+        <div class="pstat"><div class="pstat-val">Direct</div><div class="pstat-label">No custody</div></div>
       </div>
-    </header>
+      <div class="info-rows">
+        <div class="info-row"><span class="info-row-dot"></span>Identity travels with every payment</div>
+        <div class="info-row"><span class="info-row-dot"></span>Lightning addresses — not anonymous QR endpoints</div>
+        <div class="info-row"><span class="info-row-dot"></span>Each payment contributes to a cooperative procurement run</div>
+      </div>
+    </div>
 
-    <main class="main">
-      <div class="stage">
-        <h1 class="headline">Download CoopPay</h1>
-
-        <!-- Desktop -->
-        <div class="desktop-stage">
-          <div class="desktop-qr-grid">
-            <div class="qr-card" data-link="https://apps.apple.com/ph/app/cooppay/id6449245711">
-              <div class="store-label">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M16.365 1.43c0 1.14-.42 2.09-1.26 2.86-.95.85-2.09 1.35-3.33 1.24-.16-1.08.42-2.24 1.25-2.94.93-.8 2.27-1.38 3.34-1.16zM20.5 17.03c-.84 1.21-1.7 2.42-3.08 2.44-1.35.03-1.78-.8-3.32-.8-1.53 0-2.02.78-3.31.83-1.33.05-2.34-1.34-3.18-2.55-1.74-2.52-3.06-7.1-1.28-10.18.88-1.53 2.46-2.5 4.18-2.53 1.31-.02 2.54.88 3.32.88.78 0 2.24-1.09 3.78-.93.65.03 2.47.26 3.64 1.97-.1.06-2.17 1.27-2.15 3.8.03 3.03 2.65 4.04 2.68 4.05-.02.07-.42 1.43-1.28 2.55z"/>
-                </svg>
-                <span>App Store</span>
-              </div>
-              <div class="qr-frame">
-                <div class="qr-inner">
-                  <img src="https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_app_store.png?v=1774871927" alt="Download CoopPay on the App Store">
-                </div>
-              </div>
-            </div>
-
-            <div class="qr-card" data-link="https://play.google.com/store/apps/details?id=com.coop.pay">
-              <div class="store-label">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M3 2l18 10L3 22z"/>
-                </svg>
-                <span>Google Play</span>
-              </div>
-              <div class="qr-frame">
-                <div class="qr-inner">
-                  <img src="https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_google_play.png?v=1774871948" alt="Get CoopPay on Google Play">
-                </div>
-              </div>
-            </div>
+    <div class="stage-right">
+      <div class="qr-grid">
+        <div class="qr-card" data-link="https://apps.apple.com/ph/app/cooppay/id6449245711">
+          <div class="qr-store-label">
+            <svg viewBox="0 0 24 24"><path d="M16.365 1.43c0 1.14-.42 2.09-1.26 2.86-.95.85-2.09 1.35-3.33 1.24-.16-1.08.42-2.24 1.25-2.94.93-.8 2.27-1.38 3.34-1.16zM20.5 17.03c-.84 1.21-1.7 2.42-3.08 2.44-1.35.03-1.78-.8-3.32-.8-1.53 0-2.02.78-3.31.83-1.33.05-2.34-1.34-3.18-2.55-1.74-2.52-3.06-7.1-1.28-10.18.88-1.53 2.46-2.5 4.18-2.53 1.31-.02 2.54.88 3.32.88.78 0 2.24-1.09 3.78-.93.65.03 2.47.26 3.64 1.97-.1.06-2.17 1.27-2.15 3.8.03 3.03 2.65 4.04 2.68 4.05-.02.07-.42 1.43-1.28 2.55z"/></svg>
+            App Store
           </div>
+          <div class="qr-frame"><div class="qr-inner">
+            <img src="https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_app_store.png?v=1774871927" alt="Download CoopPay on App Store">
+          </div></div>
         </div>
-
-        <!-- Mobile -->
-        <div class="mobile-stage">
-          <div class="toggle" id="mobileToggle">
-            <button type="button" class="active" data-os="ios">iOS</button>
-            <button type="button" data-os="android">Android</button>
+        <div class="qr-card" data-link="https://play.google.com/store/apps/details?id=com.coop.pay">
+          <div class="qr-store-label">
+            <svg viewBox="0 0 24 24"><path d="M3 2l18 10L3 22z"/></svg>
+            Google Play
           </div>
-
-          <div class="qr-card" id="mobileQrCard" data-link="https://apps.apple.com/ph/app/cooppay/id6449245711">
-            <div class="store-label" id="mobileStoreLabel">
-              <svg id="mobileStoreIcon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M16.365 1.43c0 1.14-.42 2.09-1.26 2.86-.95.85-2.09 1.35-3.33 1.24-.16-1.08.42-2.24 1.25-2.94.93-.8 2.27-1.38 3.34-1.16zM20.5 17.03c-.84 1.21-1.7 2.42-3.08 2.44-1.35.03-1.78-.8-3.32-.8-1.53 0-2.02.78-3.31.83-1.33.05-2.34-1.34-3.18-2.55-1.74-2.52-3.06-7.1-1.28-10.18.88-1.53 2.46-2.5 4.18-2.53 1.31-.02 2.54.88 3.32.88.78 0 2.24-1.09 3.78-.93.65.03 2.47.26 3.64 1.97-.1.06-2.17 1.27-2.15 3.8.03 3.03 2.65 4.04 2.68 4.05-.02.07-.42 1.43-1.28 2.55z"/>
-              </svg>
-              <span id="mobileStoreText">App Store</span>
-            </div>
-            <div class="qr-frame">
-              <div class="qr-inner">
-                <img id="mobileQrImage" src="https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_app_store.png?v=1774871927" alt="Download CoopPay">
-              </div>
-            </div>
-          </div>
+          <div class="qr-frame"><div class="qr-inner">
+            <img src="https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_google_play.png?v=1774871948" alt="Get CoopPay on Google Play">
+          </div></div>
         </div>
       </div>
-    </main>
+
+      <div class="qr-panel-links">
+        <a href="https://www.buy.coop" class="qr-panel-link">
+          <div class="qr-panel-link-icon">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
+          </div>
+          <div style="flex:1;"><div class="qr-panel-link-label">The Co-operative Exchange</div><div class="qr-panel-link-sub">Infrastructure for the Cooperative Economy · www.buy.coop</div></div>
+          <div class="qr-panel-link-arrow">→</div>
+        </a>
+        <a href="https://map.buy.coop" class="qr-panel-link">
+          <div class="qr-panel-link-icon">+</div>
+          <div style="flex:1;"><div class="qr-panel-link-label">Global Cooperative Supply Map</div><div class="qr-panel-link-sub">map.buy.coop</div></div>
+          <div class="qr-panel-link-arrow">→</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- MOBILE -->
+<main class="main-mobile">
+  <div class="mobile-stage">
+    <div class="stage-eyebrow">Lightning Network · Cooperative Commerce</div>
+    <h1 class="stage-headline">Download <span>CoopPay</span></h1>
+    <p class="stage-sub">The world's first Lightning Network super app built by and for cooperatives. Direct payment. No custody. Zero fees.</p>
+    <div class="stat-strip">
+      <div class="pstat"><div class="pstat-val">Zero fees</div><div class="pstat-label">Coop-to-coop</div></div>
+      <div class="pstat"><div class="pstat-val">Lightning</div><div class="pstat-label">Rail</div></div>
+      <div class="pstat"><div class="pstat-val">Direct</div><div class="pstat-label">No custody</div></div>
+    </div>
+    <div class="info-rows">
+      <div class="info-row"><span class="info-row-dot"></span>Identity travels with every payment</div>
+      <div class="info-row"><span class="info-row-dot"></span>Lightning addresses — not anonymous QR endpoints</div>
+      <div class="info-row"><span class="info-row-dot"></span>Each payment contributes to a procurement run</div>
+    </div>
+
+    <div class="toggle" id="mobileToggle">
+      <button type="button" class="active" data-os="ios">iOS</button>
+      <button type="button" data-os="android">Android</button>
+    </div>
+
+    <div class="mobile-qr-wrap">
+      <div class="mobile-store-label">
+        <svg id="mobileStoreIcon" viewBox="0 0 24 24" style="width:16px;height:16px;fill:#374151;flex-shrink:0;"><path d="M16.365 1.43c0 1.14-.42 2.09-1.26 2.86-.95.85-2.09 1.35-3.33 1.24-.16-1.08.42-2.24 1.25-2.94.93-.8 2.27-1.38 3.34-1.16zM20.5 17.03c-.84 1.21-1.7 2.42-3.08 2.44-1.35.03-1.78-.8-3.32-.8-1.53 0-2.02.78-3.31.83-1.33.05-2.34-1.34-3.18-2.55-1.74-2.52-3.06-7.1-1.28-10.18.88-1.53 2.46-2.5 4.18-2.53 1.31-.02 2.54.88 3.32.88.78 0 2.24-1.09 3.78-.93.65.03 2.47.26 3.64 1.97-.1.06-2.17 1.27-2.15 3.8.03 3.03 2.65 4.04 2.68 4.05-.02.07-.42 1.43-1.28 2.55z"/></svg>
+        <span id="mobileStoreText">App Store</span>
+      </div>
+      <div class="qr-card" id="mobileQrCard" data-link="https://apps.apple.com/ph/app/cooppay/id6449245711">
+        <div class="qr-frame"><div class="qr-inner">
+          <img id="mobileQrImage" src="https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_app_store.png?v=1774871927" alt="Download CoopPay">
+        </div></div>
+      </div>
+    </div>
+
+    <div class="qr-panel-links" style="width:100%;">
+      <a href="https://www.buy.coop" class="qr-panel-link">
+        <div class="qr-panel-link-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg></div>
+        <div style="flex:1;"><div class="qr-panel-link-label">The Co-operative Exchange</div><div class="qr-panel-link-sub">www.buy.coop</div></div>
+        <div class="qr-panel-link-arrow">→</div>
+      </a>
+      <a href="https://map.buy.coop" class="qr-panel-link">
+        <div class="qr-panel-link-icon">+</div>
+        <div style="flex:1;"><div class="qr-panel-link-label">Global Cooperative Supply Map</div><div class="qr-panel-link-sub">map.buy.coop</div></div>
+        <div class="qr-panel-link-arrow">→</div>
+      </a>
+    </div>
+  </div>
+</main>
 
 <footer class="footer">
-  Direct Payment · No Custody · <a href="https://buy.coop" target="_blank" rel="noopener">
-    The Co-operative Exchange
-  </a>
+  <span>© <span id="footerYear"></span> The Co-operative Exchange</span>
 </footer>
 
-    <section class="panel" id="panel-pay" aria-hidden="true">
-      <button type="button" class="panel-close" aria-label="Close panel">✕</button>
-      <div class="panel-inner">
-        <h2>Coop-to-Coop Payments</h2>
-        <p>QuickPay is a popup button we designed on BuyCoop that allows cooperative purchasers to make direct QR payments using CoopPay and Lightning wallets.</p>
-        <p>Each cooperative purchaser is shown the cooperative supplier’s own Lightning QR, so payment is made directly—no platform in between. At the same time, each payment contributes to a procurement run, allowing cooperatives to aggregate demand, execute at scale, and strengthen direct cooperative-to-cooperative trade without platform dependency.</p>
-      </div>
-    </section>
-
-    <section class="panel" id="panel-network" aria-hidden="true">
-      <button type="button" class="panel-close" aria-label="Close panel">✕</button>
-      <div class="panel-inner">
-        <h2>Smart Use Cases</h2>
-        <p>CoopPay-to-CoopPay payments are zero-fee and run on Lightning addresses, not anonymous QR endpoints. When <strong>manilacoop@isle.ph</strong> sends payment to <strong>baguiocoop@isle.ph</strong>, the sender is immediately known and attributable. Identity travels with the payment.</p>
-	<p>There are no unknown counterparties, no detached references, and no need to reconcile who paid. Each transaction is direct, visible, and traceable—by design.</p>
-      </div>
-    </section>
-
-    <section class="panel" id="panel-about" aria-hidden="true">
-      <button type="button" class="panel-close" aria-label="Close panel">✕</button>
-      <div class="panel-inner">
-        <h2>Cooperative Vision</h2>
-        <p>The Co-operative Exchange aka BuyCoop is building the infrastructure for the cooperative economy.</p>
-
-<p>CoopPay is the world’s first Lightning wallet built for cooperatives, developed by One Cooperative Technology Services. It enables direct, zero-fee, peso-to-peso payments.</p>
-
-<p>A CoopShop in every cooperative office. This is envisioned to operate on the CoopPay Lightning rail, where trade is executed directly and coordination remains shared.</p>
-      </div>
-    </section>
+<!-- PANEL: QuickPay -->
+<section class="panel" id="panel-pay" aria-hidden="true">
+  <button type="button" class="panel-close">✕</button>
+  <div class="panel-inner">
+    <div class="panel-eyebrow">Feature</div>
+    <h2>Coop-to-Coop Payments</h2>
+    <p>QuickPay is a popup button on BuyCoop that allows cooperative purchasers to make direct QR payments using CoopPay and Lightning wallets.</p>
+    <p>Each cooperative purchaser is shown the cooperative supplier's own Lightning QR, so payment is made directly — no platform in between. Each payment contributes to a procurement run, allowing cooperatives to aggregate demand, execute at scale, and strengthen direct cooperative-to-cooperative trade without platform dependency.</p>
+    <hr class="panel-divider">
+    <div class="panel-links">
+      <a href="https://www.buy.coop" class="panel-link">
+        <div class="panel-link-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg></div>
+        <div class="panel-link-text"><div class="panel-link-label">The Co-operative Exchange</div><div class="panel-link-sub">Infrastructure for the Cooperative Economy · www.buy.coop</div></div>
+        <div class="panel-link-arrow">→</div>
+      </a>
+      <a href="https://map.buy.coop" class="panel-link">
+        <div class="panel-link-icon">+</div>
+        <div class="panel-link-text"><div class="panel-link-label">Global Cooperative Supply Map</div><div class="panel-link-sub">map.buy.coop</div></div>
+        <div class="panel-link-arrow">→</div>
+      </a>
+    </div>
   </div>
+</section>
 
-  <script>
-    const ios = {
-      link: 'https://apps.apple.com/ph/app/cooppay/id6449245711',
-      img: 'https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_app_store.png?v=1774871927',
-      text: 'App Store',
-      svg: '<path d="M16.365 1.43c0 1.14-.42 2.09-1.26 2.86-.95.85-2.09 1.35-3.33 1.24-.16-1.08.42-2.24 1.25-2.94.93-.8 2.27-1.38 3.34-1.16zM20.5 17.03c-.84 1.21-1.7 2.42-3.08 2.44-1.35.03-1.78-.8-3.32-.8-1.53 0-2.02.78-3.31.83-1.33.05-2.34-1.34-3.18-2.55-1.74-2.52-3.06-7.1-1.28-10.18.88-1.53 2.46-2.5 4.18-2.53 1.31-.02 2.54.88 3.32.88.78 0 2.24-1.09 3.78-.93.65.03 2.47.26 3.64 1.97-.1.06-2.17 1.27-2.15 3.8.03 3.03 2.65 4.04 2.68 4.05-.02.07-.42 1.43-1.28 2.55z"/>'
-    };
+<!-- PANEL: Use Cases -->
+<section class="panel" id="panel-network" aria-hidden="true">
+  <button type="button" class="panel-close">✕</button>
+  <div class="panel-inner">
+    <div class="panel-eyebrow">Use Cases</div>
+    <h2>Smart Use Cases</h2>
+    <p>CoopPay-to-CoopPay payments are zero-fee and run on Lightning addresses, not anonymous QR endpoints. When <strong>manilacoop@isle.ph</strong> sends payment to <strong>baguiocoop@isle.ph</strong>, the sender is immediately known and attributable. Identity travels with the payment.</p>
+    <p>There are no unknown counterparties, no detached references, and no need to reconcile who paid. Each transaction is direct, visible, and traceable — by design.</p>
+    <hr class="panel-divider">
+    <div class="panel-links">
+      <a href="https://www.buy.coop" class="panel-link">
+        <div class="panel-link-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg></div>
+        <div class="panel-link-text"><div class="panel-link-label">The Co-operative Exchange</div><div class="panel-link-sub">Infrastructure for the Cooperative Economy · www.buy.coop</div></div>
+        <div class="panel-link-arrow">→</div>
+      </a>
+      <a href="https://map.buy.coop" class="panel-link">
+        <div class="panel-link-icon">+</div>
+        <div class="panel-link-text"><div class="panel-link-label">Global Cooperative Supply Map</div><div class="panel-link-sub">map.buy.coop</div></div>
+        <div class="panel-link-arrow">→</div>
+      </a>
+    </div>
+  </div>
+</section>
 
-    const android = {
-      link: 'https://play.google.com/store/apps/details?id=com.coop.pay',
-      img: 'https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_google_play.png?v=1774871948',
-      text: 'Google Play',
-      svg: '<path d="M3 2l18 10L3 22z"/>'
-    };
+<!-- PANEL: About -->
+<section class="panel" id="panel-about" aria-hidden="true">
+  <button type="button" class="panel-close">✕</button>
+  <div class="panel-inner">
+    <div class="panel-eyebrow">Cooperative Vision</div>
+    <h2>Built by and for Cooperatives</h2>
+    <p>The Co-operative Exchange (BuyCoop) is building the infrastructure for the cooperative economy. CoopPay is the world's first Lightning wallet built for cooperatives, developed by One Cooperative Technology Services. It enables direct, zero-fee, peso-to-peso payments.</p>
+    <p>A CoopShop in every cooperative office — envisioned to operate on the CoopPay Lightning rail, where trade is executed directly and coordination remains shared.</p>
+    <hr class="panel-divider">
+    <div class="panel-links">
+      <a href="https://www.buy.coop" class="panel-link">
+        <div class="panel-link-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg></div>
+        <div class="panel-link-text"><div class="panel-link-label">The Co-operative Exchange</div><div class="panel-link-sub">Infrastructure for the Cooperative Economy · www.buy.coop</div></div>
+        <div class="panel-link-arrow">→</div>
+      </a>
+      <a href="https://map.buy.coop" class="panel-link">
+        <div class="panel-link-icon">+</div>
+        <div class="panel-link-text"><div class="panel-link-label">Global Cooperative Supply Map</div><div class="panel-link-sub">map.buy.coop</div></div>
+        <div class="panel-link-arrow">→</div>
+      </a>
+    </div>
+  </div>
+</section>
 
-    document.querySelectorAll('.qr-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const link = card.getAttribute('data-link');
-        if (link) window.open(link, '_blank');
-      });
-    });
+<script>
+document.getElementById('footerYear').textContent = new Date().getFullYear();
 
-    const mobileButtons = document.querySelectorAll('#mobileToggle button');
-    const mobileCard = document.getElementById('mobileQrCard');
-    const mobileImg = document.getElementById('mobileQrImage');
-    const mobileText = document.getElementById('mobileStoreText');
-    const mobileIcon = document.getElementById('mobileStoreIcon');
+document.querySelectorAll('.qr-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const link = card.getAttribute('data-link');
+    if(link) window.open(link,'_blank');
+  });
+});
 
-    mobileButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        mobileButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+const iosData = {
+  link:'https://apps.apple.com/ph/app/cooppay/id6449245711',
+  img:'https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_app_store.png?v=1774871927',
+  text:'App Store',
+  svg:'<path d="M16.365 1.43c0 1.14-.42 2.09-1.26 2.86-.95.85-2.09 1.35-3.33 1.24-.16-1.08.42-2.24 1.25-2.94.93-.8 2.27-1.38 3.34-1.16zM20.5 17.03c-.84 1.21-1.7 2.42-3.08 2.44-1.35.03-1.78-.8-3.32-.8-1.53 0-2.02.78-3.31.83-1.33.05-2.34-1.34-3.18-2.55-1.74-2.52-3.06-7.1-1.28-10.18.88-1.53 2.46-2.5 4.18-2.53 1.31-.02 2.54.88 3.32.88.78 0 2.24-1.09 3.78-.93.65.03 2.47.26 3.64 1.97-.1.06-2.17 1.27-2.15 3.8.03 3.03 2.65 4.04 2.68 4.05-.02.07-.42 1.43-1.28 2.55z"/>'
+};
+const androidData = {
+  link:'https://play.google.com/store/apps/details?id=com.coop.pay',
+  img:'https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_google_play.png?v=1774871948',
+  text:'Google Play',
+  svg:'<path d="M3 2l18 10L3 22z"/>'
+};
 
-        const os = btn.getAttribute('data-os');
-        const data = os === 'android' ? android : ios;
+document.querySelectorAll('#mobileToggle button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#mobileToggle button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const data = btn.getAttribute('data-os')==='android' ? androidData : iosData;
+    document.getElementById('mobileQrCard').setAttribute('data-link', data.link);
+    document.getElementById('mobileQrImage').src = data.img;
+    document.getElementById('mobileStoreText').textContent = data.text;
+    document.getElementById('mobileStoreIcon').innerHTML = data.svg;
+  });
+});
 
-        mobileCard.setAttribute('data-link', data.link);
-        mobileImg.src = data.img;
-        mobileText.textContent = data.text;
-        mobileIcon.innerHTML = data.svg;
-      });
-    });
-
-    const panelButtons = document.querySelectorAll('[data-panel]');
-    const panels = document.querySelectorAll('.panel');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const hamburger = document.getElementById('hamburger');
-
-    function closePanels() {
-      panels.forEach(panel => {
-        panel.classList.remove('active');
-        panel.setAttribute('aria-hidden', 'true');
-      });
-    }
-
-    panelButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const id = button.getAttribute('data-panel');
-        closePanels();
-        const target = document.getElementById('panel-' + id);
-        if (target) {
-          target.classList.add('active');
-          target.setAttribute('aria-hidden', 'false');
-        }
-        mobileMenu.classList.remove('open');
-      });
-    });
-
-    document.querySelectorAll('.panel-close').forEach(btn => {
-      btn.addEventListener('click', closePanels);
-    });
-
-    hamburger.addEventListener('click', () => {
-      mobileMenu.classList.toggle('open');
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closePanels();
-    });
-  </script>
+const panels = document.querySelectorAll('.panel');
+function closePanels(){
+  panels.forEach(p=>{p.classList.remove('active');p.setAttribute('aria-hidden','true');});
+  document.querySelectorAll('.topbar-nav button').forEach(b=>b.classList.remove('active'));
+}
+document.querySelectorAll('[data-panel]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id = btn.getAttribute('data-panel');
+    closePanels();
+    const target = document.getElementById('panel-'+id);
+    if(target){target.classList.add('active');target.setAttribute('aria-hidden','false');}
+    const navBtn = document.querySelector(`.topbar-nav [data-panel="${id}"]`);
+    if(navBtn) navBtn.classList.add('active');
+    document.getElementById('mobileMenu').classList.remove('open');
+  });
+});
+document.querySelectorAll('.panel-close').forEach(btn=>btn.addEventListener('click',closePanels));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePanels();});
+document.getElementById('hamburger').addEventListener('click',()=>{
+  document.getElementById('mobileMenu').classList.toggle('open');
+});
+</script>
 </body>
 </html>
