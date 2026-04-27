@@ -10,193 +10,171 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 html{height:100%;}
-body{
-  font-family:'Inter',system-ui,sans-serif;
-  color:#111;
-  background:#edfaf8;
-  -webkit-font-smoothing:antialiased;
-  min-height:100%;
-}
+body{font-family:'Inter',system-ui,sans-serif;color:#111;background:#e8faf7;-webkit-font-smoothing:antialiased;min-height:100%;}
 
-/* ── ORBS ── */
+/* ── ORBS — more saturated and visible ── */
 .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
-.orb{position:absolute;border-radius:50%;filter:blur(70px);animation:drift linear infinite;}
-.orb1{width:800px;height:800px;background:radial-gradient(circle,rgba(15,118,110,.28),transparent 65%);top:-20%;left:-15%;animation-duration:20s;opacity:1;}
-.orb2{width:600px;height:600px;background:radial-gradient(circle,rgba(22,163,74,.2),transparent 65%);top:20%;right:-12%;animation-duration:25s;animation-delay:-8s;opacity:1;}
-.orb3{width:500px;height:500px;background:radial-gradient(circle,rgba(8,145,178,.22),transparent 65%);bottom:-12%;left:20%;animation-duration:30s;animation-delay:-15s;opacity:1;}
+.orb{position:absolute;border-radius:50%;filter:blur(60px);animation:drift linear infinite;}
+.orb1{width:900px;height:900px;background:radial-gradient(circle,rgba(15,118,110,.38),transparent 60%);top:-25%;left:-18%;animation-duration:20s;}
+.orb2{width:700px;height:700px;background:radial-gradient(circle,rgba(22,163,74,.28),transparent 60%);top:15%;right:-15%;animation-duration:25s;animation-delay:-8s;}
+.orb3{width:600px;height:600px;background:radial-gradient(circle,rgba(8,145,178,.32),transparent 60%);bottom:-15%;left:18%;animation-duration:30s;animation-delay:-15s;}
 @keyframes drift{
-  0%{transform:translate(0,0) scale(1);}
-  25%{transform:translate(50px,-40px) scale(1.06);}
-  50%{transform:translate(25px,60px) scale(.94);}
-  75%{transform:translate(-40px,25px) scale(1.04);}
-  100%{transform:translate(0,0) scale(1);}
+  0%{transform:translate(0,0) scale(1);}25%{transform:translate(60px,-50px) scale(1.07);}
+  50%{transform:translate(30px,70px) scale(.93);}75%{transform:translate(-50px,30px) scale(1.05);}100%{transform:translate(0,0) scale(1);}
 }
 
 /* ── TOPBAR ── */
-.topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 36px;height:56px;
-  border-bottom:1px solid rgba(15,118,110,.18);
-  position:sticky;top:0;z-index:20;
-  background:rgba(237,250,248,.92);backdrop-filter:blur(12px);
-}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 36px;height:56px;border-bottom:1px solid rgba(15,118,110,.2);position:sticky;top:0;z-index:20;background:rgba(232,250,247,.93);backdrop-filter:blur(12px);}
 .topbar-brand{font-size:14px;font-weight:600;color:#111;text-decoration:none;display:flex;align-items:center;gap:8px;}
 .topbar-brand:hover{color:#0f766e;}
 .brand-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;flex-shrink:0;animation:pulse 2s ease-in-out infinite;}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.5);}50%{box-shadow:0 0 0 6px rgba(34,197,94,0);}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.5);}50%{box-shadow:0 0 0 7px rgba(34,197,94,0);}}
+
+/* nav with icons */
 .topbar-nav{display:flex;align-items:center;}
 .topbar-nav button{
-  appearance:none;border:none;background:none;
-  color:#6b7280;font:inherit;font-size:14px;
-  padding:0 18px;height:56px;cursor:pointer;
-  border-bottom:2px solid transparent;
+  appearance:none;border:none;background:none;color:#6b7280;font:inherit;font-size:13px;
+  padding:0 16px;height:56px;cursor:pointer;border-bottom:2px solid transparent;
   transition:color .15s,border-color .15s;white-space:nowrap;
+  display:flex;align-items:center;gap:7px;
 }
 .topbar-nav button:hover{color:#0f766e;}
 .topbar-nav button.active{color:#0f766e;border-bottom-color:#0f766e;}
+.topbar-nav button svg{width:14px;height:14px;flex-shrink:0;opacity:.7;}
+.topbar-nav button:hover svg,.topbar-nav button.active svg{opacity:1;}
+
 .hamburger{display:none;appearance:none;border:none;background:none;color:#374151;font-size:24px;line-height:1;cursor:pointer;padding:4px;}
-.mobile-menu{display:none;position:absolute;top:56px;right:16px;min-width:190px;z-index:30;background:rgba(237,250,248,.98);border:1px solid rgba(15,118,110,.18);border-radius:10px;padding:8px;box-shadow:0 8px 28px rgba(0,0,0,.12);}
+.mobile-menu{display:none;position:absolute;top:56px;right:16px;min-width:190px;z-index:30;background:rgba(232,250,247,.98);border:1px solid rgba(15,118,110,.2);border-radius:12px;padding:8px;box-shadow:0 8px 32px rgba(0,0,0,.12);}
 .mobile-menu.open{display:block;}
-.mobile-menu button{display:block;width:100%;text-align:left;appearance:none;border:none;background:none;color:#374151;font:inherit;font-size:14px;padding:12px 14px;border-radius:7px;cursor:pointer;}
+.mobile-menu button{display:flex;align-items:center;gap:9px;width:100%;text-align:left;appearance:none;border:none;background:none;color:#374151;font:inherit;font-size:14px;padding:12px 14px;border-radius:8px;cursor:pointer;}
+.mobile-menu button svg{width:15px;height:15px;opacity:.6;flex-shrink:0;}
 .mobile-menu button:hover{background:rgba(15,118,110,.08);color:#0f766e;}
 
-/* ── DESKTOP: single viewport ── */
-.main-desktop{
-  display:flex;align-items:center;justify-content:center;
-  height:calc(100vh - 56px - 48px);
-  padding:0 48px;position:relative;z-index:1;
-}
+/* ── DESKTOP ── */
+.main-desktop{display:flex;align-items:center;justify-content:center;height:calc(100vh - 56px - 48px);padding:0 48px;position:relative;z-index:1;}
 .stage{width:min(1080px,100%);display:flex;align-items:center;justify-content:space-between;gap:56px;}
 
 /* LEFT */
 .stage-left{flex:1;display:flex;flex-direction:column;gap:0;}
-.stage-eyebrow{
-  font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
-  color:#0f766e;margin-bottom:14px;display:flex;align-items:center;gap:10px;
+.stage-eyebrow{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#0f766e;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.stage-eyebrow::before{content:'';width:24px;height:1.5px;background:linear-gradient(90deg,#0f766e,#0891b2);display:block;}
+
+.stage-headline{font-size:clamp(44px,4.4vw,68px);font-weight:700;line-height:1.03;letter-spacing:-.03em;color:#111;margin-bottom:14px;}
+.stage-headline span{background:linear-gradient(120deg,#0f766e 0%,#059669 45%,#0891b2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+.stage-sub{font-size:17px;color:#374151;line-height:1.65;max-width:420px;margin-bottom:24px;}
+
+/* stat strip */
+.stat-strip{display:flex;gap:0;padding-top:18px;border-top:1px solid rgba(15,118,110,.18);margin-bottom:24px;}
+.pstat{padding-right:24px;display:flex;flex-direction:column;gap:3px;}
+.pstat+.pstat{padding-left:24px;border-left:1px solid rgba(15,118,110,.18);}
+.pstat-head{display:flex;align-items:center;gap:7px;}
+.pstat-icon{color:#0f766e;flex-shrink:0;}
+.pstat-val{font-size:18px;font-weight:700;color:#111;line-height:1.1;letter-spacing:-.01em;}
+.pstat-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#9ca3af;margin-left:0;}
+
+/* info rows — no bullets, use tick marks */
+.info-rows{display:flex;flex-direction:column;gap:0;}
+.info-row{
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:15px;color:#374151;line-height:1.5;
+  padding:9px 0;border-bottom:1px solid rgba(15,118,110,.1);
 }
-.stage-eyebrow::before{content:'';width:24px;height:1px;background:#0f766e;display:block;}
-.stage-headline{
-  font-size:clamp(42px,4.2vw,66px);
-  font-weight:700;line-height:1.04;letter-spacing:-.03em;
-  color:#111;margin-bottom:14px;
+.info-row:last-child{border-bottom:none;}
+.info-row-mark{
+  width:22px;height:22px;border-radius:6px;
+  background:rgba(15,118,110,.1);border:1px solid rgba(15,118,110,.2);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;color:#0f766e;
 }
-.stage-headline span{
-  background:linear-gradient(120deg,#0f766e 0%,#059669 45%,#0891b2 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.stage-sub{font-size:17px;color:#4b5563;line-height:1.65;max-width:420px;margin-bottom:22px;}
-.stat-strip{display:flex;gap:0;padding-top:18px;border-top:1px solid rgba(15,118,110,.15);margin-bottom:22px;}
-.pstat{padding-right:24px;}
-.pstat+.pstat{padding-left:24px;border-left:1px solid rgba(15,118,110,.15);}
-.pstat-val{font-size:18px;font-weight:600;color:#111;line-height:1.2;margin-bottom:3px;}
-.pstat-label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9ca3af;}
-.info-rows{display:flex;flex-direction:column;gap:9px;}
-.info-row{display:flex;align-items:center;gap:10px;font-size:15px;color:#4b5563;}
-.info-row-dot{width:6px;height:6px;border-radius:50%;background:#0f766e;flex-shrink:0;}
 
 /* RIGHT */
-.stage-right{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:14px;}
-.qr-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;}
+.stage-right{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:0;}
+
+.qr-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-bottom:28px;}
 .qr-card{display:flex;flex-direction:column;align-items:center;gap:12px;cursor:pointer;transition:transform .2s ease;}
 .qr-card:hover{transform:translateY(-5px);}
-.qr-store-label{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:#374151;}
-.qr-store-label svg{width:16px;height:16px;fill:currentColor;flex-shrink:0;}
+.qr-store-label{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:#1f2937;}
+.qr-store-label svg{width:16px;height:16px;fill:currentColor;}
+
 .qr-frame{
-  position:relative;width:224px;height:224px;
+  position:relative;width:220px;height:220px;
   border-radius:22px;padding:12px;
   background:#fff;
-  border:1px solid rgba(15,118,110,.18);
+  border:1px solid rgba(15,118,110,.15);
   box-shadow:
-    0 0 0 1px rgba(15,118,110,.06),
-    0 4px 16px rgba(15,118,110,.12),
-    0 16px 48px rgba(15,118,110,.14),
-    0 32px 80px rgba(15,118,110,.08);
-  transition:box-shadow .25s ease,transform .2s ease;
+    0 0 0 1px rgba(15,118,110,.05),
+    0 6px 20px rgba(15,118,110,.14),
+    0 20px 56px rgba(15,118,110,.16),
+    0 36px 88px rgba(15,118,110,.08),
+    0 2px 4px rgba(0,0,0,.04);
+  transition:box-shadow .25s ease;
 }
 .qr-card:hover .qr-frame{
   box-shadow:
     0 0 0 1px rgba(15,118,110,.2),
-    0 8px 24px rgba(15,118,110,.2),
-    0 24px 64px rgba(15,118,110,.2),
-    0 40px 100px rgba(15,118,110,.12);
+    0 8px 24px rgba(15,118,110,.22),
+    0 28px 72px rgba(15,118,110,.22),
+    0 44px 100px rgba(15,118,110,.12);
 }
 .qr-frame::before{
   content:'';position:absolute;top:0;left:12%;right:12%;height:2px;border-radius:0 0 2px 2px;
-  background:linear-gradient(90deg,transparent,rgba(15,118,110,.5),rgba(8,145,178,.45),transparent);
+  background:linear-gradient(90deg,transparent,rgba(15,118,110,.55),rgba(8,145,178,.5),transparent);
 }
 .qr-inner{width:100%;height:100%;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;}
 .qr-inner img{width:100%;height:100%;object-fit:contain;display:block;}
 
-/* panel links below QR */
+/* link cards below QR — with breathing room */
 .qr-panel-links{display:flex;flex-direction:column;gap:8px;width:100%;}
 .qr-panel-link{
   display:flex;align-items:center;gap:12px;
-  padding:11px 14px;border:1px solid rgba(15,118,110,.18);border-radius:8px;
-  text-decoration:none;background:rgba(255,255,255,.65);
+  padding:12px 14px;border:1px solid rgba(15,118,110,.18);border-radius:10px;
+  text-decoration:none;background:rgba(255,255,255,.6);
   transition:border-color .15s,background .15s;
 }
 .qr-panel-link:hover{border-color:#0f766e;background:rgba(240,253,251,.95);}
-.qr-panel-link-icon{
-  width:30px;height:30px;border-radius:50%;
-  background:#f0fdf4;border:1px solid #86efac;color:#0f766e;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:600;
-}
-.qr-panel-link-label{font-size:13px;font-weight:600;color:#111;flex:1;line-height:1.4;}
-.qr-panel-link-sub{font-size:11px;color:#9ca3af;}
-.qr-panel-link-arrow{font-size:12px;color:#9ca3af;}
+.qr-panel-link-icon{width:32px;height:32px;border-radius:50%;background:rgba(15,118,110,.1);border:1px solid rgba(15,118,110,.25);color:#0f766e;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.qr-panel-link-label{font-size:13px;font-weight:600;color:#111;flex:1;line-height:1.3;}
+.qr-panel-link-sub{font-size:11px;color:#9ca3af;margin-top:1px;}
+.qr-panel-link-arrow{font-size:13px;color:#9ca3af;font-weight:500;}
 
-/* ── MOBILE: scrollable ── */
-.main-mobile{display:none;position:relative;z-index:1;padding:28px 20px 36px;}
+/* ── MOBILE ── */
+.main-mobile{display:none;position:relative;z-index:1;padding:28px 20px 40px;}
 .mobile-stage{display:flex;flex-direction:column;align-items:center;gap:22px;max-width:420px;margin:0 auto;}
 .mobile-stage .stage-eyebrow{justify-content:center;}
-.mobile-stage .stage-headline{text-align:center;font-size:clamp(36px,9vw,48px);}
-.mobile-stage .stage-sub{text-align:center;max-width:none;font-size:16px;}
+.mobile-stage .stage-headline{text-align:center;font-size:clamp(36px,9vw,50px);}
+.mobile-stage .stage-sub{text-align:center;max-width:none;}
 .mobile-stage .stat-strip{justify-content:center;}
 .mobile-stage .info-rows{width:100%;}
-.mobile-stage .info-row{font-size:14px;}
-
-.toggle{display:inline-flex;align-items:center;gap:4px;padding:4px;border-radius:999px;border:1px solid rgba(15,118,110,.2);background:rgba(255,255,255,.6);}
+.toggle{display:inline-flex;align-items:center;gap:4px;padding:4px;border-radius:999px;border:1px solid rgba(15,118,110,.22);background:rgba(255,255,255,.6);}
 .toggle button{appearance:none;border:none;background:none;color:#6b7280;font:inherit;font-size:14px;font-weight:500;padding:8px 22px;border-radius:999px;cursor:pointer;transition:background .18s,color .18s,box-shadow .18s;}
 .toggle button.active{background:#fff;color:#0f766e;font-weight:600;box-shadow:0 1px 5px rgba(0,0,0,.1),inset 0 0 0 1px rgba(15,118,110,.3);}
-.mobile-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;}
+.mobile-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;}
 .mobile-qr-wrap .qr-frame{width:240px;height:240px;}
-.mobile-store-label{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:#374151;}
+.mobile-store-label{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:#1f2937;}
 
 /* ── PANELS ── */
-.panel{
-  position:fixed;inset:0;z-index:40;
-  background:rgba(237,250,248,.97);backdrop-filter:blur(14px);
-  opacity:0;pointer-events:none;transform:translateY(8px);
-  transition:opacity .2s ease,transform .2s ease;
-  display:flex;align-items:center;justify-content:center;
-  padding:80px 36px 48px;overflow-y:auto;
-}
+.panel{position:fixed;inset:0;z-index:40;background:rgba(232,250,247,.97);backdrop-filter:blur(14px);opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .2s ease,transform .2s ease;display:flex;align-items:center;justify-content:center;padding:80px 36px 48px;overflow-y:auto;}
 .panel.active{opacity:1;pointer-events:auto;transform:translateY(0);}
-.panel-close{position:absolute;top:20px;right:26px;appearance:none;border:none;background:none;color:#9ca3af;font:inherit;font-size:22px;line-height:1;cursor:pointer;}
+.panel-close{position:absolute;top:20px;right:26px;appearance:none;border:none;background:none;color:#9ca3af;font:inherit;font-size:22px;line-height:1;cursor:pointer;padding:4px;}
 .panel-close:hover{color:#111;}
 .panel-inner{width:min(700px,100%);margin:auto;}
-.panel-eyebrow{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#0f766e;margin-bottom:14px;}
+.panel-eyebrow{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#0f766e;margin-bottom:14px;}
 .panel h2{font-size:clamp(28px,3vw,44px);font-weight:700;line-height:1.1;letter-spacing:-.02em;color:#111;margin-bottom:18px;}
-.panel p{font-size:16px;line-height:1.75;color:#4b5563;margin-bottom:16px;max-width:600px;}
+.panel p{font-size:16px;line-height:1.75;color:#374151;margin-bottom:16px;max-width:600px;}
 .panel p strong{color:#111;}
-.panel-divider{border:none;border-top:1px solid rgba(15,118,110,.15);margin:22px 0;}
+.panel-divider{border:none;border-top:1px solid rgba(15,118,110,.18);margin:24px 0;}
 .panel-links{display:flex;flex-direction:column;gap:10px;}
-.panel-link{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid rgba(15,118,110,.18);border-radius:9px;text-decoration:none;background:rgba(255,255,255,.7);transition:border-color .15s,background .15s;}
+.panel-link{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid rgba(15,118,110,.18);border-radius:10px;text-decoration:none;background:rgba(255,255,255,.7);transition:border-color .15s,background .15s;}
 .panel-link:hover{border-color:#0f766e;background:#f0fdf4;}
-.panel-link-icon{width:34px;height:34px;border-radius:50%;background:#f0fdf4;border:1px solid #86efac;color:#0f766e;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;font-weight:600;}
+.panel-link-icon{width:34px;height:34px;border-radius:50%;background:rgba(15,118,110,.1);border:1px solid rgba(15,118,110,.25);color:#0f766e;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .panel-link-text{flex:1;}
-.panel-link-label{font-size:14px;font-weight:600;color:#111;line-height:1.4;}
+.panel-link-label{font-size:14px;font-weight:600;color:#111;}
 .panel-link-sub{font-size:12px;color:#6b7280;margin-top:1px;}
 .panel-link-arrow{font-size:13px;color:#9ca3af;}
 
 /* ── FOOTER ── */
-.footer{
-  height:48px;display:flex;align-items:center;justify-content:center;
-  border-top:1px solid rgba(15,118,110,.12);
-  font-size:13px;color:#9ca3af;
-  position:relative;z-index:1;
-  background:rgba(237,250,248,.9);backdrop-filter:blur(8px);
-}
+.footer{height:48px;display:flex;align-items:center;justify-content:center;border-top:1px solid rgba(15,118,110,.14);font-size:13px;color:#9ca3af;position:relative;z-index:1;background:rgba(232,250,247,.9);backdrop-filter:blur(8px);}
 
 /* ── RESPONSIVE ── */
 @media(max-width:768px){
@@ -217,7 +195,6 @@ body{
 </style>
 </head>
 <body>
-
 <div class="bg">
   <div class="orb orb1"></div>
   <div class="orb orb2"></div>
@@ -229,15 +206,33 @@ body{
     <span class="brand-dot"></span>The Co-operative Exchange
   </a>
   <nav class="topbar-nav">
-    <button type="button" data-panel="pay">QuickPay</button>
-    <button type="button" data-panel="network">Use Cases</button>
-    <button type="button" data-panel="about">About</button>
+    <button type="button" data-panel="pay">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+      QuickPay
+    </button>
+    <button type="button" data-panel="network">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Use Cases
+    </button>
+    <button type="button" data-panel="about">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      About
+    </button>
   </nav>
   <button type="button" class="hamburger" id="hamburger">☰</button>
   <div class="mobile-menu" id="mobileMenu">
-    <button type="button" data-panel="pay">QuickPay</button>
-    <button type="button" data-panel="network">Use Cases</button>
-    <button type="button" data-panel="about">About</button>
+    <button type="button" data-panel="pay">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+      QuickPay
+    </button>
+    <button type="button" data-panel="network">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Use Cases
+    </button>
+    <button type="button" data-panel="about">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      About
+    </button>
   </div>
 </header>
 
@@ -248,15 +243,53 @@ body{
       <div class="stage-eyebrow">Lightning Network · Cooperative Commerce</div>
       <h1 class="stage-headline">Download<br><span>CoopPay</span></h1>
       <p class="stage-sub">The world's first Lightning Network super app built by and for cooperatives. Direct payment. No custody. Zero fees between cooperatives.</p>
+
       <div class="stat-strip">
-        <div class="pstat"><div class="pstat-val">Zero fees</div><div class="pstat-label">Coop-to-coop</div></div>
-        <div class="pstat"><div class="pstat-val">Lightning</div><div class="pstat-label">Payment rail</div></div>
-        <div class="pstat"><div class="pstat-val">Direct</div><div class="pstat-label">No custody</div></div>
+        <div class="pstat">
+          <div class="pstat-head">
+            <!-- zero fees: circle with slash -->
+            <svg class="pstat-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="8" x2="16" y2="16"/></svg>
+            <span class="pstat-val">Zero fees</span>
+          </div>
+          <div class="pstat-label">Coop-to-coop</div>
+        </div>
+        <div class="pstat">
+          <div class="pstat-head">
+            <!-- lightning bolt -->
+            <svg class="pstat-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span class="pstat-val">Lightning</span>
+          </div>
+          <div class="pstat-label">Payment rail</div>
+        </div>
+        <div class="pstat">
+          <div class="pstat-head">
+            <!-- direct: arrow right -->
+            <svg class="pstat-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            <span class="pstat-val">Direct</span>
+          </div>
+          <div class="pstat-label">No custody</div>
+        </div>
       </div>
+
       <div class="info-rows">
-        <div class="info-row"><span class="info-row-dot"></span>Identity travels with every payment</div>
-        <div class="info-row"><span class="info-row-dot"></span>Lightning addresses — not anonymous QR endpoints</div>
-        <div class="info-row"><span class="info-row-dot"></span>Each payment contributes to a cooperative procurement run</div>
+        <div class="info-row">
+          <div class="info-row-mark">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          Identity travels with every payment
+        </div>
+        <div class="info-row">
+          <div class="info-row-mark">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          Lightning addresses — not anonymous QR endpoints
+        </div>
+        <div class="info-row">
+          <div class="info-row-mark">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          Each payment contributes to a cooperative procurement run
+        </div>
       </div>
     </div>
 
@@ -285,14 +318,22 @@ body{
       <div class="qr-panel-links">
         <a href="https://www.buy.coop" class="qr-panel-link">
           <div class="qr-panel-link-icon">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
           </div>
-          <div style="flex:1;"><div class="qr-panel-link-label">The Co-operative Exchange</div><div class="qr-panel-link-sub">Infrastructure for the Cooperative Economy · www.buy.coop</div></div>
+          <div style="flex:1;">
+            <div class="qr-panel-link-label">The Co-operative Exchange</div>
+            <div class="qr-panel-link-sub">Infrastructure for the Cooperative Economy · www.buy.coop</div>
+          </div>
           <div class="qr-panel-link-arrow">→</div>
         </a>
         <a href="https://map.buy.coop" class="qr-panel-link">
-          <div class="qr-panel-link-icon">+</div>
-          <div style="flex:1;"><div class="qr-panel-link-label">Global Cooperative Supply Map</div><div class="qr-panel-link-sub">map.buy.coop</div></div>
+          <div class="qr-panel-link-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div style="flex:1;">
+            <div class="qr-panel-link-label">Global Cooperative Supply Map</div>
+            <div class="qr-panel-link-sub">map.buy.coop</div>
+          </div>
           <div class="qr-panel-link-arrow">→</div>
         </a>
       </div>
@@ -307,25 +348,33 @@ body{
     <h1 class="stage-headline">Download <span>CoopPay</span></h1>
     <p class="stage-sub">The world's first Lightning Network super app built by and for cooperatives. Direct payment. No custody. Zero fees.</p>
     <div class="stat-strip">
-      <div class="pstat"><div class="pstat-val">Zero fees</div><div class="pstat-label">Coop-to-coop</div></div>
-      <div class="pstat"><div class="pstat-val">Lightning</div><div class="pstat-label">Rail</div></div>
-      <div class="pstat"><div class="pstat-val">Direct</div><div class="pstat-label">No custody</div></div>
+      <div class="pstat">
+        <div class="pstat-head"><svg class="pstat-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="8" x2="16" y2="16"/></svg><span class="pstat-val">Zero fees</span></div>
+        <div class="pstat-label">Coop-to-coop</div>
+      </div>
+      <div class="pstat">
+        <div class="pstat-head"><svg class="pstat-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span class="pstat-val">Lightning</span></div>
+        <div class="pstat-label">Rail</div>
+      </div>
+      <div class="pstat">
+        <div class="pstat-head"><svg class="pstat-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg><span class="pstat-val">Direct</span></div>
+        <div class="pstat-label">No custody</div>
+      </div>
     </div>
-    <div class="info-rows">
-      <div class="info-row"><span class="info-row-dot"></span>Identity travels with every payment</div>
-      <div class="info-row"><span class="info-row-dot"></span>Lightning addresses — not anonymous QR endpoints</div>
-      <div class="info-row"><span class="info-row-dot"></span>Each payment contributes to a procurement run</div>
+    <div class="info-rows" style="width:100%;">
+      <div class="info-row"><div class="info-row-mark"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Identity travels with every payment</div>
+      <div class="info-row"><div class="info-row-mark"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>Lightning addresses — not anonymous QR endpoints</div>
+      <div class="info-row"><div class="info-row-mark"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>Each payment contributes to a cooperative procurement run</div>
     </div>
 
     <div class="toggle" id="mobileToggle">
       <button type="button" class="active" data-os="ios">iOS</button>
       <button type="button" data-os="android">Android</button>
     </div>
-
     <div class="mobile-qr-wrap">
       <div class="mobile-store-label">
-        <svg id="mobileStoreIcon" viewBox="0 0 24 24" style="width:16px;height:16px;fill:#374151;flex-shrink:0;"><path d="M16.365 1.43c0 1.14-.42 2.09-1.26 2.86-.95.85-2.09 1.35-3.33 1.24-.16-1.08.42-2.24 1.25-2.94.93-.8 2.27-1.38 3.34-1.16zM20.5 17.03c-.84 1.21-1.7 2.42-3.08 2.44-1.35.03-1.78-.8-3.32-.8-1.53 0-2.02.78-3.31.83-1.33.05-2.34-1.34-3.18-2.55-1.74-2.52-3.06-7.1-1.28-10.18.88-1.53 2.46-2.5 4.18-2.53 1.31-.02 2.54.88 3.32.88.78 0 2.24-1.09 3.78-.93.65.03 2.47.26 3.64 1.97-.1.06-2.17 1.27-2.15 3.8.03 3.03 2.65 4.04 2.68 4.05-.02.07-.42 1.43-1.28 2.55z"/></svg>
-        <span id="mobileStoreText">App Store</span>
+        <svg id="mobileStoreIcon" viewBox="0 0 24 24" style="width:16px;height:16px;fill:#1f2937;flex-shrink:0;"><path d="M16.365 1.43c0 1.14-.42 2.09-1.26 2.86-.95.85-2.09 1.35-3.33 1.24-.16-1.08.42-2.24 1.25-2.94.93-.8 2.27-1.38 3.34-1.16zM20.5 17.03c-.84 1.21-1.7 2.42-3.08 2.44-1.35.03-1.78-.8-3.32-.8-1.53 0-2.02.78-3.31.83-1.33.05-2.34-1.34-3.18-2.55-1.74-2.52-3.06-7.1-1.28-10.18.88-1.53 2.46-2.5 4.18-2.53 1.31-.02 2.54.88 3.32.88.78 0 2.24-1.09 3.78-.93.65.03 2.47.26 3.64 1.97-.1.06-2.17 1.27-2.15 3.8.03 3.03 2.65 4.04 2.68 4.05-.02.07-.42 1.43-1.28 2.55z"/></svg>
+        <span id="mobileStoreText" style="font-size:15px;font-weight:600;color:#1f2937;margin-left:7px;">App Store</span>
       </div>
       <div class="qr-card" id="mobileQrCard" data-link="https://apps.apple.com/ph/app/cooppay/id6449245711">
         <div class="qr-frame"><div class="qr-inner">
@@ -333,15 +382,14 @@ body{
         </div></div>
       </div>
     </div>
-
     <div class="qr-panel-links" style="width:100%;">
       <a href="https://www.buy.coop" class="qr-panel-link">
-        <div class="qr-panel-link-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg></div>
+        <div class="qr-panel-link-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg></div>
         <div style="flex:1;"><div class="qr-panel-link-label">The Co-operative Exchange</div><div class="qr-panel-link-sub">www.buy.coop</div></div>
         <div class="qr-panel-link-arrow">→</div>
       </a>
       <a href="https://map.buy.coop" class="qr-panel-link">
-        <div class="qr-panel-link-icon">+</div>
+        <div class="qr-panel-link-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
         <div style="flex:1;"><div class="qr-panel-link-label">Global Cooperative Supply Map</div><div class="qr-panel-link-sub">map.buy.coop</div></div>
         <div class="qr-panel-link-arrow">→</div>
       </a>
@@ -349,9 +397,7 @@ body{
   </div>
 </main>
 
-<footer class="footer">
-  <span>© <span id="footerYear"></span> The Co-operative Exchange</span>
-</footer>
+<footer class="footer">© <span id="footerYear"></span>&nbsp;The Co-operative Exchange</footer>
 
 <!-- PANEL: QuickPay -->
 <section class="panel" id="panel-pay" aria-hidden="true">
@@ -360,19 +406,11 @@ body{
     <div class="panel-eyebrow">Feature</div>
     <h2>Coop-to-Coop Payments</h2>
     <p>QuickPay is a popup button on BuyCoop that allows cooperative purchasers to make direct QR payments using CoopPay and Lightning wallets.</p>
-    <p>Each cooperative purchaser is shown the cooperative supplier's own Lightning QR, so payment is made directly — no platform in between. Each payment contributes to a procurement run, allowing cooperatives to aggregate demand, execute at scale, and strengthen direct cooperative-to-cooperative trade without platform dependency.</p>
+    <p>Each cooperative purchaser is shown the cooperative supplier's own Lightning QR, so payment is made directly — no platform in between. Each payment contributes to a procurement run, allowing cooperatives to aggregate demand, execute at scale, and strengthen direct cooperative-to-cooperative trade.</p>
     <hr class="panel-divider">
     <div class="panel-links">
-      <a href="https://www.buy.coop" class="panel-link">
-        <div class="panel-link-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg></div>
-        <div class="panel-link-text"><div class="panel-link-label">The Co-operative Exchange</div><div class="panel-link-sub">Infrastructure for the Cooperative Economy · www.buy.coop</div></div>
-        <div class="panel-link-arrow">→</div>
-      </a>
-      <a href="https://map.buy.coop" class="panel-link">
-        <div class="panel-link-icon">+</div>
-        <div class="panel-link-text"><div class="panel-link-label">Global Cooperative Supply Map</div><div class="panel-link-sub">map.buy.coop</div></div>
-        <div class="panel-link-arrow">→</div>
-      </a>
+      <a href="https://www.buy.coop" class="panel-link"><div class="panel-link-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg></div><div class="panel-link-text"><div class="panel-link-label">The Co-operative Exchange</div><div class="panel-link-sub">Infrastructure for the Cooperative Economy · www.buy.coop</div></div><div class="panel-link-arrow">→</div></a>
+      <a href="https://map.buy.coop" class="panel-link"><div class="panel-link-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="panel-link-text"><div class="panel-link-label">Global Cooperative Supply Map</div><div class="panel-link-sub">map.buy.coop</div></div><div class="panel-link-arrow">→</div></a>
     </div>
   </div>
 </section>
@@ -387,16 +425,8 @@ body{
     <p>There are no unknown counterparties, no detached references, and no need to reconcile who paid. Each transaction is direct, visible, and traceable — by design.</p>
     <hr class="panel-divider">
     <div class="panel-links">
-      <a href="https://www.buy.coop" class="panel-link">
-        <div class="panel-link-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg></div>
-        <div class="panel-link-text"><div class="panel-link-label">The Co-operative Exchange</div><div class="panel-link-sub">Infrastructure for the Cooperative Economy · www.buy.coop</div></div>
-        <div class="panel-link-arrow">→</div>
-      </a>
-      <a href="https://map.buy.coop" class="panel-link">
-        <div class="panel-link-icon">+</div>
-        <div class="panel-link-text"><div class="panel-link-label">Global Cooperative Supply Map</div><div class="panel-link-sub">map.buy.coop</div></div>
-        <div class="panel-link-arrow">→</div>
-      </a>
+      <a href="https://www.buy.coop" class="panel-link"><div class="panel-link-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg></div><div class="panel-link-text"><div class="panel-link-label">The Co-operative Exchange</div><div class="panel-link-sub">Infrastructure for the Cooperative Economy · www.buy.coop</div></div><div class="panel-link-arrow">→</div></a>
+      <a href="https://map.buy.coop" class="panel-link"><div class="panel-link-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="panel-link-text"><div class="panel-link-label">Global Cooperative Supply Map</div><div class="panel-link-sub">map.buy.coop</div></div><div class="panel-link-arrow">→</div></a>
     </div>
   </div>
 </section>
@@ -411,76 +441,24 @@ body{
     <p>A CoopShop in every cooperative office — envisioned to operate on the CoopPay Lightning rail, where trade is executed directly and coordination remains shared.</p>
     <hr class="panel-divider">
     <div class="panel-links">
-      <a href="https://www.buy.coop" class="panel-link">
-        <div class="panel-link-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg></div>
-        <div class="panel-link-text"><div class="panel-link-label">The Co-operative Exchange</div><div class="panel-link-sub">Infrastructure for the Cooperative Economy · www.buy.coop</div></div>
-        <div class="panel-link-arrow">→</div>
-      </a>
-      <a href="https://map.buy.coop" class="panel-link">
-        <div class="panel-link-icon">+</div>
-        <div class="panel-link-text"><div class="panel-link-label">Global Cooperative Supply Map</div><div class="panel-link-sub">map.buy.coop</div></div>
-        <div class="panel-link-arrow">→</div>
-      </a>
+      <a href="https://www.buy.coop" class="panel-link"><div class="panel-link-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg></div><div class="panel-link-text"><div class="panel-link-label">The Co-operative Exchange</div><div class="panel-link-sub">Infrastructure for the Cooperative Economy · www.buy.coop</div></div><div class="panel-link-arrow">→</div></a>
+      <a href="https://map.buy.coop" class="panel-link"><div class="panel-link-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="panel-link-text"><div class="panel-link-label">Global Cooperative Supply Map</div><div class="panel-link-sub">map.buy.coop</div></div><div class="panel-link-arrow">→</div></a>
     </div>
   </div>
 </section>
 
 <script>
 document.getElementById('footerYear').textContent = new Date().getFullYear();
-
-document.querySelectorAll('.qr-card').forEach(card => {
-  card.addEventListener('click', () => {
-    const link = card.getAttribute('data-link');
-    if(link) window.open(link,'_blank');
-  });
-});
-
-const iosData = {
-  link:'https://apps.apple.com/ph/app/cooppay/id6449245711',
-  img:'https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_app_store.png?v=1774871927',
-  text:'App Store',
-  svg:'<path d="M16.365 1.43c0 1.14-.42 2.09-1.26 2.86-.95.85-2.09 1.35-3.33 1.24-.16-1.08.42-2.24 1.25-2.94.93-.8 2.27-1.38 3.34-1.16zM20.5 17.03c-.84 1.21-1.7 2.42-3.08 2.44-1.35.03-1.78-.8-3.32-.8-1.53 0-2.02.78-3.31.83-1.33.05-2.34-1.34-3.18-2.55-1.74-2.52-3.06-7.1-1.28-10.18.88-1.53 2.46-2.5 4.18-2.53 1.31-.02 2.54.88 3.32.88.78 0 2.24-1.09 3.78-.93.65.03 2.47.26 3.64 1.97-.1.06-2.17 1.27-2.15 3.8.03 3.03 2.65 4.04 2.68 4.05-.02.07-.42 1.43-1.28 2.55z"/>'
-};
-const androidData = {
-  link:'https://play.google.com/store/apps/details?id=com.coop.pay',
-  img:'https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_google_play.png?v=1774871948',
-  text:'Google Play',
-  svg:'<path d="M3 2l18 10L3 22z"/>'
-};
-
-document.querySelectorAll('#mobileToggle button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('#mobileToggle button').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const data = btn.getAttribute('data-os')==='android' ? androidData : iosData;
-    document.getElementById('mobileQrCard').setAttribute('data-link', data.link);
-    document.getElementById('mobileQrImage').src = data.img;
-    document.getElementById('mobileStoreText').textContent = data.text;
-    document.getElementById('mobileStoreIcon').innerHTML = data.svg;
-  });
-});
-
-const panels = document.querySelectorAll('.panel');
-function closePanels(){
-  panels.forEach(p=>{p.classList.remove('active');p.setAttribute('aria-hidden','true');});
-  document.querySelectorAll('.topbar-nav button').forEach(b=>b.classList.remove('active'));
-}
-document.querySelectorAll('[data-panel]').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const id = btn.getAttribute('data-panel');
-    closePanels();
-    const target = document.getElementById('panel-'+id);
-    if(target){target.classList.add('active');target.setAttribute('aria-hidden','false');}
-    const navBtn = document.querySelector(`.topbar-nav [data-panel="${id}"]`);
-    if(navBtn) navBtn.classList.add('active');
-    document.getElementById('mobileMenu').classList.remove('open');
-  });
-});
-document.querySelectorAll('.panel-close').forEach(btn=>btn.addEventListener('click',closePanels));
+document.querySelectorAll('.qr-card').forEach(card=>{card.addEventListener('click',()=>{const l=card.getAttribute('data-link');if(l)window.open(l,'_blank');});});
+const iosData={link:'https://apps.apple.com/ph/app/cooppay/id6449245711',img:'https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_app_store.png?v=1774871927',text:'App Store',svg:'<path d="M16.365 1.43c0 1.14-.42 2.09-1.26 2.86-.95.85-2.09 1.35-3.33 1.24-.16-1.08.42-2.24 1.25-2.94.93-.8 2.27-1.38 3.34-1.16zM20.5 17.03c-.84 1.21-1.7 2.42-3.08 2.44-1.35.03-1.78-.8-3.32-.8-1.53 0-2.02.78-3.31.83-1.33.05-2.34-1.34-3.18-2.55-1.74-2.52-3.06-7.1-1.28-10.18.88-1.53 2.46-2.5 4.18-2.53 1.31-.02 2.54.88 3.32.88.78 0 2.24-1.09 3.78-.93.65.03 2.47.26 3.64 1.97-.1.06-2.17 1.27-2.15 3.8.03 3.03 2.65 4.04 2.68 4.05-.02.07-.42 1.43-1.28 2.55z"/>'};
+const androidData={link:'https://play.google.com/store/apps/details?id=com.coop.pay',img:'https://cdn.shopify.com/s/files/1/1304/2747/files/CoopPay_google_play.png?v=1774871948',text:'Google Play',svg:'<path d="M3 2l18 10L3 22z"/>'};
+document.querySelectorAll('#mobileToggle button').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('#mobileToggle button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');const d=btn.getAttribute('data-os')==='android'?androidData:iosData;document.getElementById('mobileQrCard').setAttribute('data-link',d.link);document.getElementById('mobileQrImage').src=d.img;document.getElementById('mobileStoreText').textContent=d.text;document.getElementById('mobileStoreIcon').innerHTML=d.svg;});});
+const panels=document.querySelectorAll('.panel');
+function closePanels(){panels.forEach(p=>{p.classList.remove('active');p.setAttribute('aria-hidden','true');});document.querySelectorAll('.topbar-nav button').forEach(b=>b.classList.remove('active'));}
+document.querySelectorAll('[data-panel]').forEach(btn=>{btn.addEventListener('click',()=>{const id=btn.getAttribute('data-panel');closePanels();const t=document.getElementById('panel-'+id);if(t){t.classList.add('active');t.setAttribute('aria-hidden','false');}const nb=document.querySelector(`.topbar-nav [data-panel="${id}"]`);if(nb)nb.classList.add('active');document.getElementById('mobileMenu').classList.remove('open');});});
+document.querySelectorAll('.panel-close').forEach(b=>b.addEventListener('click',closePanels));
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closePanels();});
-document.getElementById('hamburger').addEventListener('click',()=>{
-  document.getElementById('mobileMenu').classList.toggle('open');
-});
+document.getElementById('hamburger').addEventListener('click',()=>{document.getElementById('mobileMenu').classList.toggle('open');});
 </script>
 </body>
 </html>
